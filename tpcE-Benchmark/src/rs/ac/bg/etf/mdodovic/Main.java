@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
+import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedChemaLoader;
 
 public class Main {
 
@@ -88,13 +89,10 @@ public class Main {
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation ... finished");
 
-/*			
-			Statement stmt = database.getConnection().createStatement();  
-			ResultSet rs=stmt.executeQuery("SELECT * FROM tpce_mysql.tabela1");  
-			while(rs.next())  
-				System.out.println(rs.getInt(1)+"  "+rs.getString(2) + "\n");  
-*/			
 
+//			NormalizedChemaLoader.loadData(database.getConnection());
+
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
