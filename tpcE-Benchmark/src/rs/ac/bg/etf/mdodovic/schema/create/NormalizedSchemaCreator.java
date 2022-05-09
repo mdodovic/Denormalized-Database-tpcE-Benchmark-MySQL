@@ -1,18 +1,20 @@
 package rs.ac.bg.etf.mdodovic.schema.create;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import rs.ac.bg.etf.mdodovic.schema.Tables;
 
 public class NormalizedSchemaCreator {
 	
-	public static void createNormalizedDatabaseSchema(Connection connection) {
+	public static void createNormalizedDatabaseSchema(Connection connection) throws SQLException {
 
 		Statement stmt;
 		String createSchemaQuery;
 		String createConstraintQuery;
-
+		
+		dropNormalizedDatabaseChema(connection);
 		
 		
 		// drop foreign keys
@@ -21,14 +23,34 @@ public class NormalizedSchemaCreator {
 		createSchemaQuery = "";
 		for (String tableName: Tables.normalizedTableNames) {
 			
-			createSchemaQuery = createTableQuery(tableName) + "\r\n";
+			createSchemaQuery += createTableQuery(tableName) + "\r\n";
 			
 		}
-		
 		
 	}
 
 	
+	public static void dropNormalizedDatabaseChema(Connection connection) throws SQLException {
+		
+		String dropQueryPattern = "DROP TABLE IF EXISTS ### CASCADE;";
+
+		String dropQuery;
+		Statement stmt;
+		
+		for(String tableName: Tables.normalizedTableNames) {
+			dropQuery = dropQueryPattern.replace("###",  tableName);
+		
+			stmt = connection.createStatement();
+			stmt.executeUpdate(dropQuery);
+
+			System.out.println("Table: " + tableName + " successfully deleted");
+
+		}
+
+		System.out.println("------------------------------------------------------------");
+
+	}
+
 	
 	private static String createTableQuery(String tableName) {
 		

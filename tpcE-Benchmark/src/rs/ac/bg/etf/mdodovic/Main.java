@@ -1,13 +1,8 @@
 package rs.ac.bg.etf.mdodovic;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,11 +77,12 @@ public class Main {
 		Main database = new Main();		
 		database.connectToMySQL();
 		
-		try (FileWriter fw1 = new FileWriter(pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
+		try {
+/*		try (FileWriter fw1 = new FileWriter(pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
 				PrintWriter timestamp = new PrintWriter(fw1);
 					FileWriter fw2 = new FileWriter(pathToResultFolderNormalized + outputResultFile + "_difference.txt");
 					PrintWriter difference = new PrintWriter(fw2)){
-
+*/
 			
 			// Create normalized schema (first drop whole schema, then create full schema)
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
@@ -99,7 +95,7 @@ public class Main {
 				System.out.println(rs.getInt(1)+"  "+rs.getString(2) + "\n");  
 */			
 
-		} catch (IOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			database.disconnectFromMySQL();
