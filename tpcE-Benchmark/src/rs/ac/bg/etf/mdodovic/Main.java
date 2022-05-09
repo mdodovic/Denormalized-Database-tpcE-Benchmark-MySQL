@@ -85,13 +85,16 @@ public class Main {
 					PrintWriter difference = new PrintWriter(fw2)){
 */
 			
-			// Create normalized schema (first drop whole schema, then create full schema)
+
+			// Create normalized schema (drop whole schema, create full schema)
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation ... finished");
-
-
+			
 //			NormalizedChemaLoader.loadData(database.getConnection());
+			System.out.println("Loading data ... finished");
 
+			long coldStart = System.nanoTime() - start;
+			System.out.println("Cold start ... finished after " + (coldStart / 1e9) + " seconds");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
