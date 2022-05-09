@@ -11,21 +11,39 @@ public class NormalizedSchemaCreator {
 	public static void createNormalizedDatabaseSchema(Connection connection) throws SQLException {
 
 		Statement stmt;
-		String createSchemaQuery;
-		String createConstraintQuery;
-		
-		dropNormalizedDatabaseChema(connection);
-		
 		
 		// drop foreign keys
-		// drop schema
-		
-		createSchemaQuery = "";
+
+		dropNormalizedDatabaseChema(connection);
+
+		String createSchemaQuery = "";
 		for (String tableName: Tables.normalizedTableNames) {
-			
-			createSchemaQuery += createTableQuery(tableName) + "\r\n";
+
+			createSchemaQuery = createTableQuery(tableName);
+			stmt = connection.createStatement();
+			stmt.executeUpdate(createSchemaQuery);
 			
 		}
+		
+		String primaryKeyConstraintsQuery = "";
+		for (String tableName: Tables.normalizedTableNames) {
+
+			primaryKeyConstraintsQuery = createPrimeryKeyConstraintsTableQuerry(tableName);
+			stmt = connection.createStatement();
+			stmt.executeUpdate(primaryKeyConstraintsQuery);
+			
+		}
+		
+		String foreignKeyConstraintsQuery = "";
+		for(String tableName: Tables.normalizedTableNames) {
+			
+			foreignKeyConstraintsQuery = createForeignKeyConstraintsTableQuerry(tableName);
+			if(foreignKeyConstraintsQuery != null) {
+				//stmt = connection.createStatement();
+				//stmt.executeUpdate(foreignKeyConstraintsQuery );
+			}
+		}
+		
 		
 	}
 
@@ -50,66 +68,109 @@ public class NormalizedSchemaCreator {
 		System.out.println("------------------------------------------------------------");
 
 	}
+	
+	
+	private static String createForeignKeyConstraintsTableQuerry(String tableName) {
+
+		switch(tableName) {
+			
+			case "HOLDING_SUMMARY": return 
+					"ALTER TABLE [HOLDING_SUMMARY] ADD CONSTRAINT FK_HOLDING_SUMMARY_HS_CA_ID_CUSTOMER_ACCOUNT_CA_ID FOREIGN KEY (HS_CA_ID) REFERENCES CUSTOMER_ACCOUNT(CA_ID);\r\n" + 
+					"ALTER TABLE [HOLDING_SUMMARY] ADD CONSTRAINT FK_HOLDING_SUMMARY_HS_S_SYMB_SECURITY_S_SYMB FOREIGN KEY (HS_S_SYMB) REFERENCES SECURITY(S_SYMB);\r\n";
+
+			case "LAST_TRADE": return 
+					"ALTER TABLE [LAST_TRADE] ADD CONSTRAINT FK_LAST_TRADE_LT_S_SYMB_SECURITY_S_SYMB FOREIGN KEY (LT_S_SYMB) REFERENCES SECURITY(S_SYMB);\r\n";
+
+			case "CUSTOMER_ACCOUNT": return 
+					"ALTER TABLE [CUSTOMER_ACCOUNT] ADD CONSTRAINT FK_CUSTOMER_ACCOUNT_CA_B_ID_BROKER_B_ID FOREIGN KEY (CA_B_ID) REFERENCES BROKER(B_ID);\r\n" + 
+					"ALTER TABLE [CUSTOMER_ACCOUNT] ADD CONSTRAINT FK_CUSTOMER_ACCOUNT_CA_C_ID_CUSTOMER_C_ID FOREIGN KEY (CA_C_ID) REFERENCES CUSTOMER(C_ID);\r\n";
+	
+			case "CUSTOMER": return 
+					"ALTER TABLE [CUSTOMER] ADD CONSTRAINT FK_CUSTOMER_C_ST_ID_STATUS_TYPE_ST_ID FOREIGN KEY (C_ST_ID) REFERENCES STATUS_TYPE(ST_ID);\r\n" + 
+					"ALTER TABLE [CUSTOMER] ADD CONSTRAINT FK_CUSTOMER_C_AD_ID_ADDRESS_AD_ID FOREIGN KEY (C_AD_ID) REFERENCES ADDRESS(AD_ID);\r\n";
+			
+			default: return null;	
+		}
+			
+	}
+	
+	private static String createPrimeryKeyConstraintsTableQuerry(String tableName) {
+
+		switch(tableName) {
+			
+			case "HOLDING_SUMMARY": return 
+					"ALTER TABLE tpce_mysql.HOLDING_SUMMARY ADD CONSTRAINT HOLDING_SUMMARY_PK PRIMARY KEY (HS_CA_ID,HS_S_SYMB); ";
+
+			case "LAST_TRADE": return 
+					"ALTER TABLE tpce_mysql.LAST_TRADE ADD CONSTRAINT LAST_TRADE_PK PRIMARY KEY (LT_S_SYMB);";
+
+			case "CUSTOMER_ACCOUNT": return 
+					"ALTER TABLE tpce_mysql.CUSTOMER_ACCOUNT ADD CONSTRAINT CUSTOMER_ACCOUNT_PK PRIMARY KEY (CA_ID);";
+	
+			case "CUSTOMER": return 
+					"ALTER TABLE tpce_mysql.CUSTOMER ADD CONSTRAINT CUSTOMER_PK PRIMARY KEY (C_ID);";
+		
+			
+			default: return null;	
+		}
+			
+	}
 
 	
 	private static String createTableQuery(String tableName) {
 		
 		switch(tableName) {
 
-			case "HOLDING_SUMMARY": return "CREATE TABLE HOLDING_SUMMARY (\r\n" + 
-					"	HS_CA_ID bigint Not Null,\r\n" + 
-					"	HS_S_SYMB CHAR(15) Not Null,\r\n" + 
-					"	HS_QTY int Not Null\r\n" + 
-					");\r\n" + 
-					"ALTER TABLE HOLDING_SUMMARY ADD CONSTRAINT HOLDING_SUMMARY_PK PRIMARY KEY (HS_CA_ID,HS_S_SYMB); \r\n";
-	
-			case "LAST_TRADE": return "CREATE TABLE LAST_TRADE (\r\n" + 
-					"	LT_S_SYMB CHAR(15) Not Null,\r\n" + 
-					"	LT_DTS DATETIME Not Null,\r\n" + 
-					"	LT_PRICE decimal(10,2) Not Null,\r\n" + 
-					"	LT_OPEN_PRICE decimal(10,2) Not Null,\r\n" + 
-					"	LT_VOL bigint Not Null\r\n" + 
-					");\r\n" + 
-					"ALTER TABLE LAST_TRADE ADD CONSTRAINT LAST_TRADE_PK PRIMARY KEY (LT_S_SYMB); \r\n";
+			case "HOLDING_SUMMARY": return "CREATE TABLE tpce_mysql.HOLDING_SUMMARY ( "
+					+ "	HS_CA_ID bigint Not Null, "
+					+ "	HS_S_SYMB CHAR(15) Not Null, "
+					+ "	HS_QTY int Not Null "
+					+ "); ";
 			
-			case "CUSTOMER_ACCOUNT": return "CREATE TABLE CUSTOMER_ACCOUNT (\r\n" + 
-					"	CA_ID bigint Not Null,\r\n" + 
-					"	CA_B_ID bigint Not Null,\r\n" + 
-					"	CA_C_ID bigint Not Null,\r\n" + 
-					"	CA_NAME CHAR(50) ,\r\n" + 
-					"	CA_TAX_ST smallint Not Null,\r\n" + 
-					"	CA_BAL decimal(12,2) Not Null\r\n" + 
-					");\r\n" + 
-					"ALTER TABLE CUSTOMER_ACCOUNT ADD CONSTRAINT CUSTOMER_ACCOUNT_PK PRIMARY KEY (CA_ID); \r\n";
+			case "LAST_TRADE": return "CREATE TABLE tpce_mysql.LAST_TRADE (" + 
+					"	LT_S_SYMB CHAR(15) Not Null, " + 
+					"	LT_DTS DATETIME Not Null, " + 
+					"	LT_PRICE decimal(10,2) Not Null, " + 
+					"	LT_OPEN_PRICE decimal(10,2) Not Null, " + 
+					"	LT_VOL bigint Not Null " + 
+					"); "; 
 
-			case "CUSTOMER": return "CREATE TABLE CUSTOMER (\r\n" + 
-					"	C_ID bigint Not Null,\r\n" + 
-					"	C_TAX_ID CHAR(20) Not Null,\r\n" + 
-					"	C_ST_ID CHAR(4) Not Null,\r\n" + 
-					"	C_L_NAME CHAR(25) Not Null,\r\n" + 
-					"	C_F_NAME CHAR(20) Not Null,\r\n" + 
-					"	C_M_NAME CHAR(1) ,\r\n" + 
-					"	C_GNDR CHAR(1) ,\r\n" + 
-					"	C_TIER smallint Not Null,\r\n" + 
-					"	C_DOB DATE Not Null,\r\n" + 
-					"	C_AD_ID bigint Not Null,\r\n" + 
-					"	C_CTRY_1 CHAR(3) ,\r\n" + 
-					"	C_AREA_1 CHAR(3) ,\r\n" + 
-					"	C_LOCAL_1 CHAR(10) ,\r\n" + 
-					"	C_EXT_1 CHAR(5) ,\r\n" + 
-					"	C_CTRY_2 CHAR(3) ,\r\n" + 
-					"	C_AREA_2 CHAR(3) ,\r\n" + 
-					"	C_LOCAL_2 CHAR(10) ,\r\n" + 
-					"	C_EXT_2 CHAR(5) ,\r\n" + 
-					"	C_CTRY_3 CHAR(3) ,\r\n" + 
-					"	C_AREA_3 CHAR(3) ,\r\n" + 
-					"	C_LOCAL_3 CHAR(10) ,\r\n" + 
-					"	C_EXT_3 CHAR(5) ,\r\n" + 
-					"	C_EMAIL_1 CHAR(50) ,\r\n" + 
-					"	C_EMAIL_2 CHAR(50) \r\n" + 
-					");\r\n" + 
-					"ALTER TABLE CUSTOMER ADD CONSTRAINT CUSTOMER_PK PRIMARY KEY (C_ID); \r\n";
-	
+			case "CUSTOMER_ACCOUNT": return "CREATE TABLE tpce_mysql.CUSTOMER_ACCOUNT (" + 
+					"	CA_ID bigint Not Null, " + 
+					"	CA_B_ID bigint Not Null, " + 
+					"	CA_C_ID bigint Not Null, " + 
+					"	CA_NAME CHAR(50), " + 
+					"	CA_TAX_ST smallint Not Null, " + 
+					"	CA_BAL decimal(12,2) Not Null " + 
+					"); "; 
+
+			case "CUSTOMER": return "CREATE TABLE tpce_mysql.CUSTOMER (" + 
+					"	C_ID bigint Not Null, " + 
+					"	C_TAX_ID CHAR(20) Not Null, " + 
+					"	C_ST_ID CHAR(4) Not Null, " + 
+					"	C_L_NAME CHAR(25) Not Null, " + 
+					"	C_F_NAME CHAR(20) Not Null, " + 
+					"	C_M_NAME CHAR(1) , " + 
+					"	C_GNDR CHAR(1) , " + 
+					"	C_TIER smallint Not Null, " + 
+					"	C_DOB DATE Not Null, " + 
+					"	C_AD_ID bigint Not Null, " + 
+					"	C_CTRY_1 CHAR(3) , " + 
+					"	C_AREA_1 CHAR(3) , " + 
+					"	C_LOCAL_1 CHAR(10) , " + 
+					"	C_EXT_1 CHAR(5) , " + 
+					"	C_CTRY_2 CHAR(3) , " + 
+					"	C_AREA_2 CHAR(3) , " + 
+					"	C_LOCAL_2 CHAR(10) , " + 
+					"	C_EXT_2 CHAR(5) , " + 
+					"	C_CTRY_3 CHAR(3) , " + 
+					"	C_AREA_3 CHAR(3) , " + 
+					"	C_LOCAL_3 CHAR(10) , " + 
+					"	C_EXT_3 CHAR(5) , " + 
+					"	C_EMAIL_1 CHAR(50) , " + 
+					"	C_EMAIL_2 CHAR(50)  " + 
+					");";
+			
 			default: return null;	
 		}
 		
