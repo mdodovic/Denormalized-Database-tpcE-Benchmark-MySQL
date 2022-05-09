@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import rs.ac.bg.etf.mdodovic.schema.create.NormalizedChemaCreator;
+import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
 
 public class Main {
 
@@ -89,7 +89,7 @@ public class Main {
 
 			
 			// Create normalized schema (first drop whole schema, then create full schema)
-			NormalizedChemaCreator.createNormalizedDatabaseChema(database.getConnection());
+			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation ... finished");
 
 /*			
