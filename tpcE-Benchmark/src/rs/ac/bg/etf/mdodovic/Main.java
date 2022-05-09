@@ -90,7 +90,7 @@ public class Main {
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation ... finished");
 			
-//			NormalizedChemaLoader.loadData(database.getConnection());
+			NormalizedChemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data ... finished");
 
 			long coldStart = System.nanoTime() - start;
