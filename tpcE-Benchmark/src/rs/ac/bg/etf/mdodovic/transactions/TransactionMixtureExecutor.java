@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.stream.Stream;
 
+import rs.ac.bg.etf.mdodovic.Main;
+
 public class TransactionMixtureExecutor {
 	
 	private int status;
@@ -23,19 +25,16 @@ public class TransactionMixtureExecutor {
 		
 	}
 	
-	public void startTransactionMixture() {
+	public void startTransactionMixture() throws IOException {
 
-//		long totalLineCounter = 0;
-//		try (Stream<String> stream = Files.lines(Paths.get(Main.inputDataFile), StandardCharsets.UTF_8)) {
-//			totalLineCounter = stream.count();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
+		long transactionsNumber = Files.lines(Paths.get(Main.inputDataFile), StandardCharsets.UTF_8).count();
+	
 		long readTransactionCounter = 0;
 		long writeTransactionCounter = 0;
 
-		long lineCounter = 0;
+		long currentTransaction = 0;
+
+		
 		
 		System.out.println("Transaction mixture start");		
 		long transactionMixtureTime = System.nanoTime();

@@ -1,5 +1,6 @@
 package rs.ac.bg.etf.mdodovic;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,6 +40,8 @@ public class Main {
 
 	}
 
+	public static String inputDataFile;
+	public static String outputResultFile;
 	
 	public Main(String schemaModelName) {
 
@@ -48,7 +51,7 @@ public class Main {
 
 	}
 	
-	public void startTransactionMixture() {
+	public void startTransactionMixture() throws IOException {
 		transactionMixtureExecutor.startTransactionMixture();
 	}		
 	
@@ -137,6 +140,8 @@ public class Main {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 			database.disconnectFromMySQL();
 		}
@@ -146,9 +151,12 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-				
-		tpcENormalized("", "");
-			
+		
+		Main.inputDataFile = Main.transactionMixFilesList.get(0);
+		Main.outputResultFile = Main.outputResultFileList.get(0);
+		
+		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+	
 
 	}  
 	
