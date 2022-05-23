@@ -14,7 +14,7 @@ public class NormalizedChemaLoader {
 	public static void loadData(Connection connection) throws SQLException {
 		
 		
-		String bulk = "LOAD DATA LOCAL INFILE 'C:\\Users\\matij\\Desktop\\LastTrade.txt' "
+		String bulk = "LOAD DATA LOCAL INFILE 'C:/Users/matij/Desktop/LastTrade.txt' "
 				+ "	INTO TABLE tpce_mysql.last_trade "
 				+ "	FIELDS TERMINATED BY '|' "
 				+ "	LINES TERMINATED BY '\\n' ";
