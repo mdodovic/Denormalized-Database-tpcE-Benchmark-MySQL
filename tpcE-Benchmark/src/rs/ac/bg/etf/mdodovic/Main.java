@@ -95,7 +95,7 @@ public class Main {
 	
 	public static void tpcENormalized(String inputDataFile, String outputResultFile) {
 		
-		long start = System.nanoTime();
+		long applicationTime = System.nanoTime();
 		
 		Main database = new Main("NT");		
 		
@@ -109,30 +109,30 @@ public class Main {
 
 			// Drop normalized schema 
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
-			System.out.println("Dropping database schema ... finished\n");
+			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
-			System.out.println("Database schema creation ... finished\n");
+			System.out.println("Database schema creation finished\n");
 			
 			NormalizedSchemaLoader.loadData(database.getConnection());
-			System.out.println("Loading data ... finished\n");
+			System.out.println("Loading data finished\n");
 
 			// Rise foreign keys
 			NormalizedSchemaCreator.riseForeignKeyConstraints(database.getConnection());
-			System.out.println("Foreign keys rising ... finished\n");
+			System.out.println("Foreign keys rising finished\n");
 
 			// Rise indexes - not necessary
 //			NormalizedSchemaCreator.riseIndexes(database.getConnection());
 //			System.out.println("Loading data ... finished");
 
-			long coldStart = System.nanoTime() - start;
-			System.out.println("Cold start ... finished after " + (coldStart / 1e9) + " seconds");
+			long coldStartTime = System.nanoTime() - applicationTime;
+			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
 
 			database.startTransactionMixture();
 			
-			long currentTime = System.nanoTime() - start;
-			System.out.println("Application finished after: " + (currentTime / 1e9) + " seconds");
+			applicationTime = System.nanoTime() - applicationTime;
+			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
 
 			
 		} catch (SQLException e) {

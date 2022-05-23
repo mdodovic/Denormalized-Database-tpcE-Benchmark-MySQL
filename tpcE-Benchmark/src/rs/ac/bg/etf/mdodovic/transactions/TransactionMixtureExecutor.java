@@ -24,8 +24,28 @@ public class TransactionMixtureExecutor {
 	}
 	
 	public void startTransactionMixture() {
-		// TODO Auto-generated method stub
+
+//		long totalLineCounter = 0;
+//		try (Stream<String> stream = Files.lines(Paths.get(Main.inputDataFile), StandardCharsets.UTF_8)) {
+//			totalLineCounter = stream.count();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+
+		long readTransactionCounter = 0;
+		long writeTransactionCounter = 0;
+
+		long lineCounter = 0;
 		
+		System.out.println("Transaction mixture start");		
+		long transactionMixtureTime = System.nanoTime();
+		
+		transactionMixtureTime = System.nanoTime() - transactionMixtureTime ;
+		System.out.println("Transaction mixture end after " + (transactionMixtureTime / 1e9) + " seconds");
+
+		System.out.println("Read transactions executed: " + readTransactionCounter);
+		System.out.println("Write transactions executed: " + writeTransactionCounter);
+
 	}	
 //
 //	public void startTransactionMixture(String pathToData, PrintWriter timestamp, PrintWriter difference) {
