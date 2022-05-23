@@ -18,10 +18,22 @@ public class TransactionMixtureExecutor {
 
 	private Connection connection;
 	
+	private CustomerPosition_T2 T2;
+	
 	public TransactionMixtureExecutor(Connection connection, String schemaModelName) {
 		this.connection = connection;
 		
-		// TODO: use schemaModelName
+		switch (schemaModelName) {
+			case "NT": 
+				T2 = new CustomerPozition_T2_Normalized();
+				break;
+
+			case "FullDT": 
+				break;
+
+			case "PartialNT": 
+				break;
+		}
 		
 	}
 	
