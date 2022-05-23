@@ -8,6 +8,7 @@ import java.util.List;
 
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
+import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
 
 public class Main {
 
@@ -20,6 +21,8 @@ public class Main {
 	
 	public static List<String> transactionMixFilesList = new ArrayList<String>();
 	public static List<String> outputResultFileList = new ArrayList<String>();
+	
+	private TransactionMixtureExecutor transactionMixtureExecutor;
 	
 	static {
 		transactionMixFilesList.add("inputData/T2T3T8_T2F1_read_130k.sql");
@@ -36,6 +39,18 @@ public class Main {
 
 	}
 
+	
+	public Main(String schemaModelName) {
+
+		connectToMySQL();
+
+		transactionMixtureExecutor = new TransactionMixtureExecutor(connection, schemaModelName);
+
+	}
+	
+	public void startTransactionMixture() {
+		transactionMixtureExecutor.startTransactionMixture();
+	}		
 	
 	public void connectToMySQL() {
 
@@ -61,7 +76,7 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public Connection getConnection() {
 		return connection;
 	}
@@ -81,9 +96,8 @@ public class Main {
 	public static void tpcENormalized(String inputDataFile, String outputResultFile) {
 		
 		long start = System.nanoTime();
-
-		Main database = new Main();		
-		database.connectToMySQL();
+		
+		Main database = new Main("NT");		
 		
 		try {
 /*		try (FileWriter fw1 = new FileWriter(pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
@@ -91,7 +105,8 @@ public class Main {
 					FileWriter fw2 = new FileWriter(pathToResultFolderNormalized + outputResultFile + "_difference.txt");
 					PrintWriter difference = new PrintWriter(fw2)){
 */
-			
+
+
 			// Drop normalized schema 
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema ... finished\n");
@@ -108,11 +123,17 @@ public class Main {
 			System.out.println("Foreign keys rising ... finished\n");
 
 			// Rise indexes - not necessary
-//			NormalizedChemaLoader.loadData(database.getConnection());
+//			NormalizedSchemaCreator.riseIndexes(database.getConnection());
 //			System.out.println("Loading data ... finished");
 
 			long coldStart = System.nanoTime() - start;
 			System.out.println("Cold start ... finished after " + (coldStart / 1e9) + " seconds");
+
+			database.startTransactionMixture();
+			
+			long currentTime = System.nanoTime() - start;
+			System.out.println("Application finished after: " + (currentTime / 1e9) + " seconds");
+
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -125,7 +146,7 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-		
+				
 		tpcENormalized("", "");
 			
 
