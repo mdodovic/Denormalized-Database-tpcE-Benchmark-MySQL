@@ -92,11 +92,22 @@ public class Main {
 					PrintWriter difference = new PrintWriter(fw2)){
 */
 			
-
-			// Create normalized schema (drop whole schema, create full schema)
-			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
-			System.out.println("Database schema creation ... finished");
+			// Drop normalized schema 
+			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+			System.out.println("Dropping database schema ... finished\n");
 			
+			// Create normalized schema 
+			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+			System.out.println("Database schema creation ... finished\n");
+			
+//			NormalizedChemaLoader.loadData(database.getConnection());
+//			System.out.println("Loading data ... finished");
+
+			// Create foreign keys
+//			NormalizedChemaLoader.loadData(database.getConnection());
+//			System.out.println("Loading data ... finished");
+
+			// Create indexes
 //			NormalizedChemaLoader.loadData(database.getConnection());
 //			System.out.println("Loading data ... finished");
 

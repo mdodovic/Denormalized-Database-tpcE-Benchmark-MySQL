@@ -14,8 +14,6 @@ public class NormalizedSchemaCreator {
 
 		Statement stmt;
 		
-		dropNormalizedDatabaseChema(connection);
-
 		String createSchemaQuery = "";
 		for (String tableName: Tables.normalizedTableNames) {
 
@@ -23,7 +21,13 @@ public class NormalizedSchemaCreator {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(createSchemaQuery);
 			
+			System.out.println("Table: " + tableName + " successfully created");
+			
 		}
+		
+		System.out.println("------------------------------------------------------------");
+
+
 /*		
 		String primaryKeyConstraintsQuery = "";
 		for (String tableName: Tables.normalizedTableNames) {
