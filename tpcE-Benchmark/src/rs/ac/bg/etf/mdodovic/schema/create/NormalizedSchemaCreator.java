@@ -24,7 +24,7 @@ public class NormalizedSchemaCreator {
 			stmt.executeUpdate(createSchemaQuery);
 			
 		}
-		
+/*		
 		String primaryKeyConstraintsQuery = "";
 		for (String tableName: Tables.normalizedTableNames) {
 
@@ -43,7 +43,7 @@ public class NormalizedSchemaCreator {
 				stmt.executeUpdate(foreignKeyConstraintsQuery);
 			}
 		}
-		
+*/		
 		
 	}
 	
