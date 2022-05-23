@@ -12,9 +12,9 @@ public class NormalizedSchemaCreator {
 	
 	public static void createNormalizedDatabaseSchema(Connection connection) throws SQLException {
 
-		Statement stmt;
+		String createSchemaQuery;
+		Statement stmt;		
 		
-		String createSchemaQuery = "";
 		for (String tableName: Tables.normalizedTableNames) {
 
 			createSchemaQuery = createTableQuery(tableName);
@@ -26,20 +26,6 @@ public class NormalizedSchemaCreator {
 		}
 		
 		System.out.println("------------------------------------------------------------");
-
-
-/*		
-		
-		String foreignKeyConstraintsQuery = "";
-		for(String tableName: Tables.normalizedTableNames) {
-			
-			foreignKeyConstraintsQuery = createForeignKeyConstraintsTableQuerry(tableName);
-			if(foreignKeyConstraintsQuery != null) {
-				stmt = connection.createStatement();
-				stmt.executeUpdate(foreignKeyConstraintsQuery);
-			}
-		}
-*/		
 		
 	}
 	
@@ -63,6 +49,27 @@ public class NormalizedSchemaCreator {
 		System.out.println("------------------------------------------------------------");
 
 	}
+
+	public static void riseForeignKeyConstraints(Connection connection) throws SQLException {
+		
+		String foreignKeyConstraintsQuery;
+		Statement stmt; 
+		
+		for(String tableName: Tables.normalizedTableNames) {
+			
+			foreignKeyConstraintsQuery = createForeignKeyConstraintsTableQuerry(tableName);
+			if(foreignKeyConstraintsQuery != null) {
+				stmt = connection.createStatement();
+				stmt.executeUpdate(foreignKeyConstraintsQuery);
+				
+				System.out.println("Foreign key(s) on table " + tableName + " successfully rised");
+
+			}
+		}
+
+		System.out.println("------------------------------------------------------------");
+
+	}	
 	
 	
 	// TODO: not used - not implemented
@@ -124,12 +131,12 @@ public class NormalizedSchemaCreator {
 		switch(tableName) {
 			
 			case "HOLDING_SUMMARY": return 
-					"ALTER TABLE tpce_mysql.HOLDING_SUMMARY ADD CONSTRAINT FK_HOLDING_SUMMARY_HS_CA_ID_CUSTOMER_ACCOUNT_CA_ID FOREIGN KEY (HS_CA_ID) REFERENCES CUSTOMER_ACCOUNT(CA_ID);";
+					" ALTER TABLE tpce_mysql.HOLDING_SUMMARY ADD CONSTRAINT FK_HOLDING_SUMMARY_HS_CA_ID_CUSTOMER_ACCOUNT_CA_ID FOREIGN KEY (HS_CA_ID) REFERENCES CUSTOMER_ACCOUNT(CA_ID); ";
 
 			case "LAST_TRADE": return null;
 
 			case "CUSTOMER_ACCOUNT": return 
-					"ALTER TABLE tpce_mysql.CUSTOMER_ACCOUNT ADD CONSTRAINT FK_CUSTOMER_ACCOUNT_CA_C_ID_CUSTOMER_C_ID FOREIGN KEY (CA_C_ID) REFERENCES CUSTOMER(C_ID);\r\n";
+					" ALTER TABLE tpce_mysql.CUSTOMER_ACCOUNT ADD CONSTRAINT FK_CUSTOMER_ACCOUNT_CA_C_ID_CUSTOMER_C_ID FOREIGN KEY (CA_C_ID) REFERENCES CUSTOMER(C_ID); ";
 	
 			case "CUSTOMER": return null;					
 			
@@ -200,6 +207,8 @@ public class NormalizedSchemaCreator {
 		}
 		
 	}
+
+
 	
 	
 }

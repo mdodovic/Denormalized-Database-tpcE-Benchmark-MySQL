@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
-import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedChemaLoader;
+import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
 
 public class Main {
 
@@ -100,14 +100,14 @@ public class Main {
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation ... finished\n");
 			
-			NormalizedChemaLoader.loadData(database.getConnection());
+			NormalizedSchemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data ... finished\n");
 
-			// Create foreign keys
-//			NormalizedChemaLoader.loadData(database.getConnection());
-//			System.out.println("Loading data ... finished");
+			// Rise foreign keys
+			NormalizedSchemaCreator.riseForeignKeyConstraints(database.getConnection());
+			System.out.println("Foreign keys rising ... finished\n");
 
-			// Create indexes
+			// Rise indexes - not necessary
 //			NormalizedChemaLoader.loadData(database.getConnection());
 //			System.out.println("Loading data ... finished");
 

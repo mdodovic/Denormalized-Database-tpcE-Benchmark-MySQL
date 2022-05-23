@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 import rs.ac.bg.etf.mdodovic.schema.Tables;
 
-public class NormalizedChemaLoader {
+public class NormalizedSchemaLoader {
 
 //	private static final String pathToData = "D:\\flatOut_dataForDatabase\\flat_out\\";
 	private static final String pathToData = "C:/Users/matij/Desktop/";
