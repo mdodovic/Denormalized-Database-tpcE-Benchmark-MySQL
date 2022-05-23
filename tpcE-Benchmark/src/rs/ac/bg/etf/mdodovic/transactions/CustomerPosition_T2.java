@@ -23,20 +23,48 @@ public abstract class CustomerPosition_T2 {
 	protected Connection connection;
 	
 	
-	public CustomerPosition_T2(Connection connection, long cust_id, String tax_id, int get_history, long acct_idx) {
+	public CustomerPosition_T2(Connection connection) {
+		this.connection = connection;
+	}
+
+	public void setParameters(long cust_id, String tax_id, int get_history, long acct_idx) {
 		this.cust_id = cust_id;
 		this.tax_id = tax_id;
 		this.get_history = get_history;
 		this.acct_idx = acct_idx;
-		this.connection = connection;
 	}
+	
+	public void startTransaction() {
+		// Transaction
+
+		// Frame 1:
+		invokeCustomerPositionFrame1();
+		
+		if (acc_len < 1 || acc_len > Constraints.max_acct_len_rows) {
+			this.status = -211;
+			if(status < 0) {
+				System.err.println("Unexpected error!");
+			}
+		}
+		
+		// Frame 2:
+		if (get_history == 1) {
+
+			invokeCustomerPositionFrame2();
+			
+			if (hist_len < 10 || acc_len > Constraints.max_hist_len_rows) {
+				this.status = -211;
+				if(status < 0) {
+					System.err.println("Unexpected error!");
+				}
+			}
+			
+		}		
+	}	
 	
 	public abstract void invokeCustomerPositionFrame1();
 	public abstract void invokeCustomerPositionFrame2();
 	
-	public void startTransaction() {
-		
-	}
 
 	// Returned rows (T2 has read query)
 	

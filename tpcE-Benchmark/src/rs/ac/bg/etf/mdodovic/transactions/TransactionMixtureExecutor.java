@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.util.stream.Stream;
 
 import rs.ac.bg.etf.mdodovic.Main;
+import rs.ac.bg.etf.mdodovic.transactions.NT.CustomerPozition_T2_Normalized;
 
 public class TransactionMixtureExecutor {
 	
@@ -25,7 +26,7 @@ public class TransactionMixtureExecutor {
 		
 		switch (schemaModelName) {
 			case "NT": 
-				T2 = new CustomerPozition_T2_Normalized();
+				T2 = new CustomerPozition_T2_Normalized(connection);
 				break;
 
 			case "FullDT": 
@@ -66,8 +67,8 @@ public class TransactionMixtureExecutor {
 //				System.out.println(cust_id + ", " + tax_id + ", " +  get_history + ", " + acct_idx);
 
 				long startTransaction = System.nanoTime();
-
-				startCustomerPositionTransaction(cust_id, tax_id, get_history, acct_idx);
+				T2.setParameters(cust_id, tax_id, get_history, acct_idx);
+				T2.startTransaction();
 
 //				difference.write("" + (System.nanoTime() - startTransaction) + "\n");
 				//System.out.println((System.nanoTime() - startTransaction));

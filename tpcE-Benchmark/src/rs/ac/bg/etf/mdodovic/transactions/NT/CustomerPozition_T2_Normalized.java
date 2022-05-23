@@ -6,9 +6,8 @@ import rs.ac.bg.etf.mdodovic.transactions.CustomerPosition_T2;
 
 public class CustomerPozition_T2_Normalized extends CustomerPosition_T2 {
 
-	public CustomerPozition_T2_Normalized(Connection connection, long cust_id, String tax_id, int get_history,
-			long acct_idx) {
-		super(connection, cust_id, tax_id, get_history, acct_idx);
+	public CustomerPozition_T2_Normalized(Connection connection) {
+		super(connection);
 	}
 
 	@Override
