@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
@@ -51,7 +52,7 @@ public class Main {
 
 	}
 	
-	public void startTransactionMixture(String transactionMixFile) throws IOException {
+	public void startTransactionMixture(String transactionMixFile) throws IOException, TransactionError {
 		transactionMixtureExecutor.startTransactionMixture(transactionMixFile);
 	}		
 	
@@ -140,6 +141,8 @@ public class Main {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransactionError e) {
 			e.printStackTrace();
 		} finally {
 			database.disconnectFromMySQL();

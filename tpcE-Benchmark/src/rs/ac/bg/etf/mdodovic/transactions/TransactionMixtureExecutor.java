@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.util.stream.Stream;
 
 import rs.ac.bg.etf.mdodovic.Main;
+import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.transactions.NT.CustomerPozition_T2_Normalized;
 
 public class TransactionMixtureExecutor {
@@ -38,7 +39,7 @@ public class TransactionMixtureExecutor {
 		
 	}
 	
-	public void startTransactionMixture(String transactionMixFile) throws IOException {
+	public void startTransactionMixture(String transactionMixFile) throws IOException, TransactionError {
 
 		long transactionsNumber = Files.lines(Paths.get(transactionMixFile), StandardCharsets.UTF_8).count();
 	
@@ -49,7 +50,8 @@ public class TransactionMixtureExecutor {
 		
 		System.out.println("Transaction mixture start");		
 		long transactionMixtureTime = System.nanoTime();
-
+		
+		// TODO: close
 		FileReader fr = new FileReader(transactionMixFile);
 		BufferedReader br = new BufferedReader(fr);
 
