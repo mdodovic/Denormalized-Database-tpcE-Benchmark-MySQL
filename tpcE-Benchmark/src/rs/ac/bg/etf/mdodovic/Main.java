@@ -42,9 +42,14 @@ public class Main {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");  
 		
-			String connectionString = "jdbc:mysql://localhost:3306/tpce_mysql?allowLoadLocalInfile=true";
+			String connectionString = "jdbc:mysql://localhost:3306/";
 			
-			
+			String databaseName = "tpce_mysql";
+			connectionString += databaseName;
+
+			String connectionProperties = "?allowLoadLocalInfile=true"
+										+ "&allowMultiQueries=true";						
+			connectionString += connectionProperties;
 			
 			connection = DriverManager.getConnection(connectionString, USER, PASSWORD);
 
