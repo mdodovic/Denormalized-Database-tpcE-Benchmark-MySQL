@@ -51,8 +51,8 @@ public class Main {
 
 	}
 	
-	public void startTransactionMixture() throws IOException {
-		transactionMixtureExecutor.startTransactionMixture();
+	public void startTransactionMixture(String transactionMixFile) throws IOException {
+		transactionMixtureExecutor.startTransactionMixture(transactionMixFile);
 	}		
 	
 	public void connectToMySQL() {
@@ -96,7 +96,7 @@ public class Main {
 		}
 	}
 	
-	public static void tpcENormalized(String inputDataFile, String outputResultFile) {
+	public static void tpcENormalized(String transactionMixFile, String outputResultFile) {
 		
 		long applicationTime = System.nanoTime();
 		
@@ -132,11 +132,10 @@ public class Main {
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
 
-			database.startTransactionMixture();
+			database.startTransactionMixture(transactionMixFile);
 			
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
-
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
