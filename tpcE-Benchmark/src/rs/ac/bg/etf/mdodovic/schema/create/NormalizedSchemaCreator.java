@@ -29,14 +29,6 @@ public class NormalizedSchemaCreator {
 
 
 /*		
-		String primaryKeyConstraintsQuery = "";
-		for (String tableName: Tables.normalizedTableNames) {
-
-			primaryKeyConstraintsQuery = createPrimeryKeyConstraintsTableQuerry(tableName);
-			stmt = connection.createStatement();
-			stmt.executeUpdate(primaryKeyConstraintsQuery);
-			
-		}
 		
 		String foreignKeyConstraintsQuery = "";
 		for(String tableName: Tables.normalizedTableNames) {

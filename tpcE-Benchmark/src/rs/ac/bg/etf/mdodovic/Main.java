@@ -100,8 +100,8 @@ public class Main {
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation ... finished\n");
 			
-//			NormalizedChemaLoader.loadData(database.getConnection());
-//			System.out.println("Loading data ... finished");
+			NormalizedChemaLoader.loadData(database.getConnection());
+			System.out.println("Loading data ... finished\n");
 
 			// Create foreign keys
 //			NormalizedChemaLoader.loadData(database.getConnection());
