@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import rs.ac.bg.etf.mdodovic.Main;
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.transactions.NT.CustomerPozition_T2_Normalized;
+import rs.ac.bg.etf.mdodovic.transactions.NT.TradeResult_T8_Normalized;
 
 public class TransactionMixtureExecutor {
 	
@@ -23,6 +24,7 @@ public class TransactionMixtureExecutor {
 	
 	private CustomerPosition_T2 T2;
 	private TradeResult_T8 T8;
+	private MarketFeed_T3 T3;
 	
 	public TransactionMixtureExecutor(Connection connection, String schemaModelName) {
 		this.connection = connection;
@@ -30,7 +32,8 @@ public class TransactionMixtureExecutor {
 		switch (schemaModelName) {
 			case "NT": 
 				T2 = new CustomerPozition_T2_Normalized(connection);
-//				T8 = new Tra(connection);
+				T8 = new TradeResult_T8_Normalized(connection);
+				T3 = new MarketFeed_T3_Normalized(connection);
 				break;
 
 			case "FullDT": 
@@ -83,27 +86,29 @@ public class TransactionMixtureExecutor {
 					readTransactionCounter++;
 	
 				} 
-	//			if ("MarketFeedFrame1".equals(parsedTransaction[1])) {
-	//
-	//				String[] data = parsedTransaction[2].split(",");
-	//
-	//				double[] price_quote = new double[] {Double.parseDouble(data[0])};
-	//				String status_submitted = data[1];
-	//				String[] symbol = new String[]{data[2]};
-	//				long[] trade_qty = new long[] {Long.parseLong(data[3])};
-	//				String type_limit_buy = "";
-	//				String type_limit_sell = "";
-	//				String type_stop_loss = "";
-	//				
-	//				long startTransaction = System.nanoTime();
-	//				
-	//				startMarketFeedTransaction(price_quote, status_submitted, 
-	//						symbol, trade_qty, type_limit_buy, type_limit_sell,type_stop_loss);					
-	//
-	//				difference.write("" + (System.nanoTime() - startTransaction) + "\n");
-	//
-	//				writeTransactionCounter++;
-	//			}
+				if ("MarketFeedFrame1".equals(parsedTransaction[1])) {
+	
+					// T3 input data:
+					String[] data = parsedTransaction[2].split(",");	
+					double[] price_quote = new double[] {Double.parseDouble(data[0])};
+					String status_submitted = data[1];
+					String[] symbol = new String[]{data[2]};
+					long[] trade_qty = new long[] {Long.parseLong(data[3])};
+					String type_limit_buy = "";
+					String type_limit_sell = "";
+					String type_stop_loss = "";
+					
+					long startTransaction = System.nanoTime();
+					
+					T3.setInputTransactionParameters(price_quote, status_submitted, 
+							symbol, trade_qty, type_limit_buy, type_limit_sell, 
+							type_stop_loss);					
+					T3.startTransaction();
+	
+//					difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+	
+					writeTransactionCounter++;
+				}
 				if ("TradeResultFrame2".equals(parsedTransaction[1])) {
 	
 					// T8 input data:
