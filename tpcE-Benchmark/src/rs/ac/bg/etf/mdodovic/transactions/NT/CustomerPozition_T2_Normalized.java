@@ -15,7 +15,7 @@ public class CustomerPozition_T2_Normalized extends CustomerPosition_T2 {
 	}
 
 	@Override
-	public void invokeCustomerPositionFrame1() throws TransactionError {
+	public void invokeCustomerPositionFrame1_T2F1() throws TransactionError {
 
 /* Not interested with the view of measurement!
  		if(cust_id == 0) {

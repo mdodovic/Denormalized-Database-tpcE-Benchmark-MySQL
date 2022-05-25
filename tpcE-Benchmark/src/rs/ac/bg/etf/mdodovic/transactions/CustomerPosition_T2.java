@@ -41,10 +41,10 @@ public abstract class CustomerPosition_T2 {
 	}
 	
 	public void startTransaction() throws TransactionError {
-		// Transaction - tpcE:T2 transaction is 'preuzeto' from tpcE documentation
+		// Transaction - tpcE:T2 transaction is taken from the tpcE documentation
 
 		// Frame 1:
-		invokeCustomerPositionFrame1();
+		invokeCustomerPositionFrame1_T2F1();
 		
 		if (acc_len < 1 || acc_len > Constraints.max_acct_len_rows) {
 			status = -211;
@@ -68,7 +68,7 @@ public abstract class CustomerPosition_T2 {
 		}		
 	}	
 	
-	public abstract void invokeCustomerPositionFrame1() throws TransactionError;
+	public abstract void invokeCustomerPositionFrame1_T2F1() throws TransactionError;
 	public abstract void invokeCustomerPositionFrame2();
 	
 
