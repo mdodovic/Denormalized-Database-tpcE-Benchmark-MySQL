@@ -68,7 +68,7 @@ public abstract class CustomerPosition_T2 {
 		}		
 	}	
 	
-	public abstract void invokeCustomerPositionFrame1();
+	public abstract void invokeCustomerPositionFrame1() throws TransactionError;
 	public abstract void invokeCustomerPositionFrame2();
 	
 

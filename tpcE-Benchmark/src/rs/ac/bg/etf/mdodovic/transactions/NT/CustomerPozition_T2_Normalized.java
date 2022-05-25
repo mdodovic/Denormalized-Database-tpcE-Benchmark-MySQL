@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.transactions.CustomerPosition_T2;
 
 public class CustomerPozition_T2_Normalized extends CustomerPosition_T2 {
@@ -14,17 +15,8 @@ public class CustomerPozition_T2_Normalized extends CustomerPosition_T2 {
 	}
 
 	@Override
-	public void invokeCustomerPositionFrame1() {
+	public void invokeCustomerPositionFrame1() throws TransactionError {
 
-		/*
-		 *  Parameters of this frame:
-
- 			long cust_id;
-			String tax_id;
-			int get_history;
-			long acct_idx;
-
-		 */
 /* Not interested with the view of measurement!
  		if(cust_id == 0) {
 			
@@ -67,36 +59,34 @@ public class CustomerPozition_T2_Normalized extends CustomerPosition_T2 {
 */
 		// Fetch account info:
 		
-		String getCustomerAccountInfo = "select top 10 CA_ID, CA_BAL,((sum(HS_QTY * LT_PRICE))) as RES_SUM\r\n" + 
-				"\r\n" + 
-				"from [tpcE].[dbo].[CUSTOMER_ACCOUNT] left outer join ([tpcE].[dbo].[HOLDING_SUMMARY] inner join [tpcE].[dbo].[LAST_TRADE] on LT_S_SYMB = HS_S_SYMB) on HS_CA_ID = CA_ID\r\n" + 
-				"\r\n" + 
-				"where CA_C_ID = ? \r\n" + 
-				"\r\n" + 
-				"group by CA_ID, CA_BAL\r\n" + 
-				"\r\n" + 
-				"order by 3 asc;";
+		String getCustomerAccountInfo = "select CA_ID, CA_BAL, ((sum(HS_QTY * LT_PRICE))) as RES_SUM "
+				+ "	from tpce_mysql.CUSTOMER_ACCOUNT "
+				+ "		left outer join ( "
+				+ "						tpce_mysql.HOLDING_SUMMARY inner join tpce_mysql.LAST_TRADE on (LT_S_SYMB = HS_S_SYMB) "
+				+ "                        ) on (HS_CA_ID = CA_ID) "
+				+ "	where CA_C_ID = ? "
+				+ "	group by CA_ID, CA_BAL "
+				+ "	order by 3 asc ";
 		
 		//long timeBefore = System.nanoTime();
 		
 		try (PreparedStatement stmt = connection.prepareStatement(getCustomerAccountInfo)){
 
 			stmt.setLong(1, cust_id);
-			ResultSet rs = stmt.executeQuery();
+			try(ResultSet rs = stmt.executeQuery();) {
 				
-			//long timeAfter = System.nanoTime();
-			
+				//long timeAfter = System.nanoTime();
+				
+				fillDataToCustomerAccountRows(rs);
+				
+				/*System.out.println(cust_id);
+				for (Long key : this.customerAccountRowData.keySet()) {
+				    System.out.println(key + ". " + customerAccountRowData.get(key));
+				}*/
+			}
 
-			
-			fillDataToCustomerAccountRows(rs);
-			
-			/*System.out.println(cust_id);
-			for (Long key : this.customerAccountRowData.keySet()) {
-			    System.out.println(key + ". " + customerAccountRowData.get(key));
-			}*/
-				
 		} catch(SQLException e) { 
-			e.printStackTrace(); 
+			throw new TransactionError(e.toString()); 
 		}
 		/*
 		if (get_history == 1) {
@@ -107,14 +97,11 @@ public class CustomerPozition_T2_Normalized extends CustomerPosition_T2 {
 		*/
 		acc_len = customerAccountRowData.size();
 		
-		
-		
 	}
 
 	@Override
 	public void invokeCustomerPositionFrame2() {
-		// TODO Auto-generated method stub
-
+		// TODO: implement 
 	}
 
 }
