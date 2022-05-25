@@ -53,8 +53,40 @@ public class TradeResult_T8_Normalized extends TradeResult_T8 {
 
 	@Override
 	public void invokeTradeResultFrame6_T8F6() throws TransactionError {
-		// TODO Auto-generated method stub
 
+		String updateLastTrade = "update tpce_mysql.CUSTOMER_ACCOUNT "
+								+ "	set CA_BAL = CA_BAL + ? "
+								+ "    WHERE CA_ID = ? ";
+
+		// Index is established already: PK = (CA_ID);
+		
+		try (PreparedStatement stmt = connection.prepareStatement(updateLastTrade)){
+
+			connection.setAutoCommit(false);
+			
+			stmt.setDouble(1, se_amount);
+			stmt.setLong(2, acct_id);			
+
+			stmt.executeUpdate();				
+			//System.out.println("TRF6: " + acct_id);
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				throw new TransactionError(e1.toString());
+			}
+			throw new TransactionError(e.toString());
+		}finally {
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e) {
+				throw new TransactionError(e.toString());
+			}
+		}
+
+		
 	}
 
 }
