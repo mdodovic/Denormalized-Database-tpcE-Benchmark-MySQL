@@ -50,7 +50,7 @@ public class NormalizedSchemaCreator {
 
 	}
 
-	public static void riseForeignKeyConstraints(Connection connection) throws SQLException {
+	public static void raiseForeignKeyConstraints(Connection connection) throws SQLException {
 		
 		String foreignKeyConstraintsQuery;
 		Statement stmt; 
@@ -62,7 +62,7 @@ public class NormalizedSchemaCreator {
 				stmt = connection.createStatement();
 				stmt.executeUpdate(foreignKeyConstraintsQuery);
 				
-				System.out.println("Foreign key(s) on table " + tableName + " successfully rised");
+				System.out.println("Foreign key(s) on table " + tableName + " successfully raised");
 
 			}
 		}
@@ -72,7 +72,7 @@ public class NormalizedSchemaCreator {
 	}	
 	
 	
-	// TODO: not used - not implemented
+	// Not used - not implemented well
 	public static void raiseIndexes(Connection connection) throws SQLException {
 
 		String indexName;

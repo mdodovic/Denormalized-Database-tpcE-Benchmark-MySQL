@@ -122,12 +122,12 @@ public class Main {
 			NormalizedSchemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data finished\n");
 
-			// Rise foreign keys
-			NormalizedSchemaCreator.riseForeignKeyConstraints(database.getConnection());
+			// Raise foreign keys
+			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
 			System.out.println("Foreign keys rising finished\n");
 
-			// Rise indexes - not necessary
-//			NormalizedSchemaCreator.riseIndexes(database.getConnection());
+//			// Raise indexes - not necessary
+//			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
 //			System.out.println("Loading data ... finished");
 
 			long coldStartTime = System.nanoTime() - applicationTime;
