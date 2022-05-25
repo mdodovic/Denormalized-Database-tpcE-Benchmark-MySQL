@@ -22,6 +22,7 @@ public class TransactionMixtureExecutor {
 	private Connection connection;
 	
 	private CustomerPosition_T2 T2;
+	private TradeResult_T8 T8;
 	
 	public TransactionMixtureExecutor(Connection connection, String schemaModelName) {
 		this.connection = connection;
@@ -29,6 +30,7 @@ public class TransactionMixtureExecutor {
 		switch (schemaModelName) {
 			case "NT": 
 				T2 = new CustomerPozition_T2_Normalized(connection);
+//				T8 = new Tra(connection);
 				break;
 
 			case "FullDT": 
@@ -102,37 +104,40 @@ public class TransactionMixtureExecutor {
 	//
 	//				writeTransactionCounter++;
 	//			}
-	//			if ("TradeResultFrame2".equals(parsedTransaction[1])) {
-	//
-	//				String[] data = parsedTransaction[2].split(",");
-	//				
-	//				long acct_id = Long.parseLong(data[0]);
-	//				int hs_qty = Integer.parseInt(data[1]);				
-	//				String symbol = data[2];
-	//				int trade_qty = Integer.parseInt(data[3]);
-	//
-	//				long startTransaction = System.nanoTime();
-	//				
-	//				startTradeResult(acct_id, symbol, hs_qty, trade_qty, -1., 2);
-	//
-	//				difference.write("" + (System.nanoTime() - startTransaction) + "\n");
-	//				
-	//				writeTransactionCounter++;
-	//			} 					
-	//			if ("TradeResultFrame6".equals(parsedTransaction[1])) {
-	//
-	//				String[] data = parsedTransaction[2].split(",");
-	//				long acct_id = Long.parseLong(data[0]);
-	//				double se_amount = Double.parseDouble(data[1]);
-	//
-	//				long startTransaction = System.nanoTime();
-	//				
-	//				startTradeResult(acct_id, "", -1, -1, se_amount, 6);
-	//
-	//				difference.write("" + (System.nanoTime() - startTransaction) + "\n");
-	//
-	//				writeTransactionCounter++;
-	//			} 		
+				if ("TradeResultFrame2".equals(parsedTransaction[1])) {
+	
+					// T8 input data:
+					String[] data = parsedTransaction[2].split(",");
+					long acct_id = Long.parseLong(data[0]);
+					int hs_qty = Integer.parseInt(data[1]);				
+					String symbol = data[2];
+					int trade_qty = Integer.parseInt(data[3]);
+	
+					long startTransaction = System.nanoTime();
+					
+					T8.setInputTransactionParameters(acct_id, symbol, hs_qty, trade_qty, -1.);
+					T8.startTransaction(2);
+	
+//					difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+					
+					writeTransactionCounter++;
+				} 					
+				if ("TradeResultFrame6".equals(parsedTransaction[1])) {
+	
+					// T8 input data:
+					String[] data = parsedTransaction[2].split(",");
+					long acct_id = Long.parseLong(data[0]);
+					double se_amount = Double.parseDouble(data[1]);
+					
+					long startTransaction = System.nanoTime();
+
+					T8.setInputTransactionParameters(acct_id, "", -1, -1, se_amount);
+					T8.startTransaction(6);
+
+//					difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+	
+					writeTransactionCounter++;
+				} 		
 				
 				currentTransaction ++;
 				if(currentTransaction % 1000 == 0) {
