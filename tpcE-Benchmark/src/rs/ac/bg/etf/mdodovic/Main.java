@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
+import rs.ac.bg.etf.mdodovic.schema.create.FullyDenormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
@@ -53,7 +54,7 @@ public class Main {
 	}
 	
 	public void startTransactionMixture(String transactionMixFile) throws IOException, TransactionError {
-		transactionMixtureExecutor.startTransactionMixture(transactionMixFile);
+//		transactionMixtureExecutor.startTransactionMixture(transactionMixFile);
 	}		
 	
 	public void connectToMySQL() {
@@ -113,6 +114,8 @@ public class Main {
 
 			// Drop normalized schema 
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+			// Drop fully denormalized schema 
+			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
@@ -124,7 +127,7 @@ public class Main {
 
 			// Raise foreign keys
 			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-			System.out.println("Foreign keys rising finished\n");
+			System.out.println("Foreign keys raising finished\n");
 
 //			// Raise indexes - not necessary
 //			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
@@ -167,6 +170,8 @@ public class Main {
 
 			// Drop normalized schema 
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+			// Drop fully denormalized schema 
+			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
@@ -178,7 +183,7 @@ public class Main {
 
 			// Raise foreign keys
 			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-			System.out.println("Foreign keys rising finished\n");
+			System.out.println("Foreign keys raising finished\n");
 
 //			// Raise indexes - not necessary
 //			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
@@ -212,8 +217,8 @@ public class Main {
 		Main.inputDataFile = Main.transactionMixFilesList.get(0);
 		Main.outputResultFile = Main.outputResultFileList.get(0);
 		
-//		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+//		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
 	
 
 	}  
