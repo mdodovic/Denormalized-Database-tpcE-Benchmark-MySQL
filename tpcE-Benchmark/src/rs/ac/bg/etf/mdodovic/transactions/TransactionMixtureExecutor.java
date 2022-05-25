@@ -4,16 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.util.stream.Stream;
 
-import rs.ac.bg.etf.mdodovic.Main;
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.transactions.NT.CustomerPozition_T2_Normalized;
+import rs.ac.bg.etf.mdodovic.transactions.NT.MarketFeed_T3_Normalized;
 import rs.ac.bg.etf.mdodovic.transactions.NT.TradeResult_T8_Normalized;
 
 public class TransactionMixtureExecutor {

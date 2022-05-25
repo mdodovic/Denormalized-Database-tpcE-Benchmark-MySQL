@@ -17,7 +17,7 @@ public class MarketFeed_T3_Normalized extends MarketFeed_T3 {
 	@Override
 	public void invokeMarketFeedFrame1_T3F1() throws TransactionError {
 		long millis = System.currentTimeMillis();
-		Date now_dts = new Date(millis); // current date
+		Date currentDate = new Date(millis); // current date
 		/*
 		TradeRequestBuffer[]
 		long req_price_quote S_PRICE_T
@@ -32,17 +32,17 @@ public class MarketFeed_T3_Normalized extends MarketFeed_T3 {
 		for(int i = 0; i < price_quote.length/*Constraints.max_feed_len*/; i++) {
 			// must be as a signle transaction with rollback mechanism
 
-			String updateLastTrade = "update [tpcE].[dbo].[LAST_TRADE] "
-					+ "set LT_PRICE = ?, LT_VOL = LT_VOL + ?, LT_DTS = ?  "
-					+ "WHERE LT_S_SYMB = ?";
-
+			String updateLastTrade = "update tpce_mysql.LAST_TRADE "
+									+ "	set LT_PRICE = ?, LT_VOL = LT_VOL + ?, LT_DTS = ? "
+									+ "	where LT_S_SYMB = ? ";
+									
 			try (PreparedStatement stmt = connection.prepareStatement(updateLastTrade)){
 
 				connection.setAutoCommit(false);
 				
 				stmt.setDouble(1, price_quote[i]);
 				stmt.setLong(2, trade_qty[i]);			
-				stmt.setDate(3, now_dts);
+				stmt.setDate(3, currentDate);
 				stmt.setString(4, symbol[i]);			
 
 				int row_count = stmt.executeUpdate();				
