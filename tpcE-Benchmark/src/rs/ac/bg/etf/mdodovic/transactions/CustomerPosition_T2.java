@@ -8,19 +8,28 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import rs.ac.bg.etf.mdodovic.errors.TransactionError;
+
 public abstract class CustomerPosition_T2 {	
 	
-	public int acc_len;
-	public int hist_len;
+	protected Connection connection;
 
+	// Input parameters for T2
+	
 	protected long cust_id;
 	protected String tax_id;
 	protected int get_history;
 	protected long acct_idx;
-
-	protected long acct_id;
 	
-	protected Connection connection;
+	// Output parameters from T2 
+
+	protected long acct_id;	
+	protected long status;
+	protected int acc_len;
+	protected int hist_len;
+	
+
+	
 	
 	
 	public CustomerPosition_T2(Connection connection) {
@@ -34,16 +43,16 @@ public abstract class CustomerPosition_T2 {
 		this.acct_idx = acct_idx;
 	}
 	
-	public void startTransaction() {
-		// Transaction
+	public void startTransaction() throws TransactionError {
+		// Transaction - tpcE:T2 transaction is 'preuzeto' from tpcE documentation
 
 		// Frame 1:
 		invokeCustomerPositionFrame1();
 		
 		if (acc_len < 1 || acc_len > Constraints.max_acct_len_rows) {
-			this.status = -211;
+			status = -211;
 			if(status < 0) {
-				System.err.println("Unexpected error!");
+				throw new TransactionError("max_acct_len_rows constraint violation");
 			}
 		}
 		
@@ -53,9 +62,9 @@ public abstract class CustomerPosition_T2 {
 			invokeCustomerPositionFrame2();
 			
 			if (hist_len < 10 || acc_len > Constraints.max_hist_len_rows) {
-				this.status = -211;
+				status = -211;
 				if(status < 0) {
-					System.err.println("Unexpected error!");
+					throw new TransactionError("max_hist_len_rows constraint violation");
 				}
 			}
 			
