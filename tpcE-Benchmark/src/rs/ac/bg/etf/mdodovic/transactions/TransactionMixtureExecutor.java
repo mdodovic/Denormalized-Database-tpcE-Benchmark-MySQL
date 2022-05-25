@@ -69,7 +69,7 @@ public class TransactionMixtureExecutor {
 //				System.out.println(cust_id + ", " + tax_id + ", " +  get_history + ", " + acct_idx);
 
 				long startTransaction = System.nanoTime();
-				T2.setParameters(cust_id, tax_id, get_history, acct_idx);
+				T2.setInputTransactionParameters(cust_id, tax_id, get_history, acct_idx);
 				T2.startTransaction();
 
 //				difference.write("" + (System.nanoTime() - startTransaction) + "\n");

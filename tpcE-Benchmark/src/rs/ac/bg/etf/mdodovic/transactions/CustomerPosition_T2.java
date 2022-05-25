@@ -28,15 +28,12 @@ public abstract class CustomerPosition_T2 {
 	protected int acc_len;
 	protected int hist_len;
 	
-
-	
-	
 	
 	public CustomerPosition_T2(Connection connection) {
 		this.connection = connection;
 	}
 
-	public void setParameters(long cust_id, String tax_id, int get_history, long acct_idx) {
+	public void setInputTransactionParameters(long cust_id, String tax_id, int get_history, long acct_idx) {
 		this.cust_id = cust_id;
 		this.tax_id = tax_id;
 		this.get_history = get_history;
