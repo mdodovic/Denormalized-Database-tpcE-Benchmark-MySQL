@@ -78,7 +78,11 @@ public class FullyDenormalizedSchemaCreator {
 		String tableName;
 		String columnName;
 		
-		String hasIndexOnTableQuery;
+		String hasIndexOnTableQuery = "	SELECT * "
+									+ "    FROM INFORMATION_SCHEMA.STATISTICS "
+									+ "	   WHERE INDEX_SCHEMA = ? "
+									+ "		  AND TABLE_NAME = ? "
+									+ "		  AND INDEX_NAME = ? ";
 
 		String dropIndexPattern = "DROP INDEX #1# ON tpce_mysql.#2#";
 		String dropIndexQuery;
@@ -89,14 +93,10 @@ public class FullyDenormalizedSchemaCreator {
 		PreparedStatement pStmt;
 		ResultSet rs;
 		
-		tableName = "CUSTOMER_ACCOUNT";
-		indexName = "Customer_Account_Index_CA_C_ID";
-		columnName = "CA_C_ID";
-				
-		hasIndexOnTableQuery = "	SELECT * "
-			+ "    FROM INFORMATION_SCHEMA.STATISTICS "
-			+ "	WHERE INDEX_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = ? ";
-		
+		tableName = "DTT2T3T8";
+		indexName = "DTT2T3T8_Index_DT_CA_C_ID";
+		columnName = "DT_CA_C_ID";
+						
 		pStmt = connection.prepareStatement(hasIndexOnTableQuery);  
 		pStmt.setString(1, "tpce_mysql");
 		pStmt.setString(2, tableName);
@@ -122,7 +122,40 @@ public class FullyDenormalizedSchemaCreator {
 		stmt.execute(createIndexQuery);
 
 		System.out.println("Index: " + indexName + " successfully created");
+
+		
+		tableName = "DTT2T3T8";
+		indexName = "DTT2T3T8_Index_DT_HS_S_SYMB__DT_CA_ID";
+		columnName = "DT_HS_S_SYMB, DT_CA_ID";
+						
+		pStmt = connection.prepareStatement(hasIndexOnTableQuery);  
+		pStmt.setString(1, "tpce_mysql");
+		pStmt.setString(2, tableName);
+		pStmt.setString(3, indexName);
+		
+		rs = pStmt.executeQuery();
+		if(rs.next()) {
+
+			dropIndexQuery = dropIndexPattern.replace("#2#", tableName);
+			dropIndexQuery = dropIndexQuery.replace("#1#", indexName);
+
+			stmt = connection.createStatement();
+			stmt.executeUpdate(dropIndexQuery);
 			
+		} 
+				
+		createIndexQuery = createIndexPattern.replace("#2#", tableName);
+		createIndexQuery = createIndexQuery.replace("#1#", indexName);
+		createIndexQuery = createIndexQuery.replace("#3#", columnName);
+		
+		stmt = connection.createStatement();
+
+		stmt.execute(createIndexQuery);
+
+		System.out.println("Index: " + indexName + " successfully created");
+
+		System.out.println("------------------------------------------------------------");
+		
 	}
 	
 	public static String createForeignKeyConstraintsTableQuerry(String tableName) {

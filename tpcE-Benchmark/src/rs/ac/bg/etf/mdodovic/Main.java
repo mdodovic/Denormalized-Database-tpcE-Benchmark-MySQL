@@ -122,6 +122,7 @@ public class Main {
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation finished\n");
 			
+			// Load data to normalized schema
 			NormalizedSchemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data finished\n");
 
@@ -131,7 +132,7 @@ public class Main {
 
 //			// Raise indexes - not necessary
 //			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
-//			System.out.println("Loading data ... finished");
+//			System.out.println("Indexes raising finished");
 
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
@@ -176,18 +177,23 @@ public class Main {
 			
 			// Create normalized schema 
 			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+			// Create fully denormalized schema 
+			FullyDenormalizedSchemaCreator.createFullyDenormalizedDatabaseSchema(database.getConnection());
 			System.out.println("Database schema creation finished\n");
 			
+			// Load data to normalized schema
 			NormalizedSchemaLoader.loadData(database.getConnection());
+			// Load data to normalized schema
+//			FullyDenormalizedSchemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data finished\n");
 
-			// Raise foreign keys
-			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-			System.out.println("Foreign keys raising finished\n");
+//			// Raise foreign keys - not necessary
+//			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+//			System.out.println("Foreign keys raising finished\n");
 
-//			// Raise indexes - not necessary
-//			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
-//			System.out.println("Loading data ... finished");
+			// Raise indexes
+			FullyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
+			System.out.println("Indexes raising finished");
 
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
@@ -217,8 +223,8 @@ public class Main {
 		Main.inputDataFile = Main.transactionMixFilesList.get(0);
 		Main.outputResultFile = Main.outputResultFileList.get(0);
 		
-		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-//		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+//		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
 	
 
 	}  
