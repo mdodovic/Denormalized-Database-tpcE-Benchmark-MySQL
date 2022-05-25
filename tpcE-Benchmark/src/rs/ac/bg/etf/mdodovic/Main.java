@@ -151,13 +151,69 @@ public class Main {
 		
 	}
 
+	public static void tpcEFullyDenormalized(String transactionMixFile, String outputResultFile) {
+		
+		long applicationTime = System.nanoTime();
+		
+		Main database = new Main("FullDT");		
+		
+		try {
+/*		try (FileWriter fw1 = new FileWriter(pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
+				PrintWriter timestamp = new PrintWriter(fw1);
+					FileWriter fw2 = new FileWriter(pathToResultFolderNormalized + outputResultFile + "_difference.txt");
+					PrintWriter difference = new PrintWriter(fw2)){
+*/
+
+
+			// Drop normalized schema 
+			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+			System.out.println("Dropping database schema finished\n");
+			
+			// Create normalized schema 
+			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+			System.out.println("Database schema creation finished\n");
+			
+			NormalizedSchemaLoader.loadData(database.getConnection());
+			System.out.println("Loading data finished\n");
+
+			// Raise foreign keys
+			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+			System.out.println("Foreign keys rising finished\n");
+
+//			// Raise indexes - not necessary
+//			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
+//			System.out.println("Loading data ... finished");
+
+			long coldStartTime = System.nanoTime() - applicationTime;
+			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
+
+			database.startTransactionMixture(transactionMixFile);
+			
+			applicationTime = System.nanoTime() - applicationTime;
+			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransactionError e) {
+			e.printStackTrace();
+		} finally {
+			database.disconnectFromMySQL();
+		}
+
+		
+	}
+	
+	
 	
 	public static void main(String[] args) {
 		
 		Main.inputDataFile = Main.transactionMixFilesList.get(0);
 		Main.outputResultFile = Main.outputResultFileList.get(0);
 		
-		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+//		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
 	
 
 	}  
