@@ -24,13 +24,13 @@ public class FilesManagement {
 		transactionMixFilesList.add(FilesManagement.pathToTransactionMixFolder + "T2T3T8_T3F1_write_130k.sql");
 		transactionMixFilesList.add(FilesManagement.pathToTransactionMixFolder + "T2T3T8_T8F2_write_130k.sql");
 		transactionMixFilesList.add(FilesManagement.pathToTransactionMixFolder + "T2T3T8_T8F6_write_130k.sql");
-		transactionMixFilesList.add(FilesManagement.pathToTransactionMixFolder + "T2T3T8_T3T8_all_write_130k.sql");
+//		transactionMixFilesList.add(FilesManagement.pathToTransactionMixFolder + "T2T3T8_T3T8_all_write_130k.sql");
 
 		outputResultFileNameList.add("T2F1_read_130k");
 		outputResultFileNameList.add("T3F1_write_130k");
 		outputResultFileNameList.add("T8F2_write_130k");
 		outputResultFileNameList.add("T8F6_write_130k");
-		outputResultFileNameList.add("T3T8_all_write_130k");
+//		outputResultFileNameList.add("T3T8_all_write_130k");
 
 	}
 

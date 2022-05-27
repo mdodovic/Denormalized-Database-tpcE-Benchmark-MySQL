@@ -95,23 +95,23 @@ public class Main {
 					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderNormalized + outputResultFile + "_difference.txt");
 					PrintWriter differenceResultFile = new PrintWriter(fw2)){
 
-			// Drop normalized schema 
-			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
-			// Drop fully denormalized schema 
-			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
-			System.out.println("Dropping database schema finished\n");
-			
-			// Create normalized schema 
-			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
-			System.out.println("Database schema creation finished\n");
-			
-			// Load data to normalized schema
-			NormalizedSchemaLoader.loadData(database.getConnection());
-			System.out.println("Loading data finished\n");
-
-			// Raise foreign keys
-			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-			System.out.println("Foreign keys raising finished\n");
+//			// Drop normalized schema 
+//			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+//			// Drop fully denormalized schema 
+//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+//			System.out.println("Dropping database schema finished\n");
+//			
+//			// Create normalized schema 
+//			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+//			System.out.println("Database schema creation finished\n");
+//			
+//			// Load data to normalized schema
+//			NormalizedSchemaLoader.loadData(database.getConnection());
+//			System.out.println("Loading data finished\n");
+//
+//			// Raise foreign keys
+//			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+//			System.out.println("Foreign keys raising finished\n");
 
 //			// Raise indexes - not necessary
 //			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
@@ -125,8 +125,6 @@ public class Main {
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TransactionError e) {
@@ -203,12 +201,25 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(0);
-		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(0);
+		int i = 2;
+		
+		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
 		
 		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
 //		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
-	
+
+		
+//		// Partial Denormalized schema
+//		for(int i = 0; i < Main.inputDataFileList.size(); i++) {
+//			
+//			Main.inputDataFile = Main.inputDataFileList.get(i);
+//			Main.outputResultFile = Main.outputResultFileList.get(i);
+//			
+//			tpcEPartialDenormalized(Main.inputDataFileList.get(i), Main.outputResultFileList.get(i));
+//		
+//		}
+
 
 	}  
 	
