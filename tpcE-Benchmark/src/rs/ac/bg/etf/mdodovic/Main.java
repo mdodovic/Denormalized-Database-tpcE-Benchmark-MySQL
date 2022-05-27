@@ -1,6 +1,8 @@
 package rs.ac.bg.etf.mdodovic;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,8 +38,8 @@ public class Main {
 
 	}
 	
-	public void startTransactionMixture(String transactionMixFile) throws IOException, TransactionError {
-//		transactionMixtureExecutor.startTransactionMixture(transactionMixFile);
+	public void startTransactionMixture(String transactionMixFile, PrintWriter timestampResultFile, PrintWriter differenceResultFile) throws IOException, TransactionError {
+		transactionMixtureExecutor.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 	}		
 	
 	public void connectToMySQL() {
@@ -87,13 +89,11 @@ public class Main {
 		
 		Main database = new Main("NT");		
 		
-		try {
-/*		try (FileWriter fw1 = new FileWriter(pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
-				PrintWriter timestamp = new PrintWriter(fw1);
-					FileWriter fw2 = new FileWriter(pathToResultFolderNormalized + outputResultFile + "_difference.txt");
-					PrintWriter difference = new PrintWriter(fw2)){
-*/
-
+//		try {
+		try (FileWriter fw1 = new FileWriter(FilesManagement.pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
+				PrintWriter timestampResultFile = new PrintWriter(fw1);
+					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderNormalized + outputResultFile + "_difference.txt");
+					PrintWriter differenceResultFile = new PrintWriter(fw2)){
 
 			// Drop normalized schema 
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
@@ -120,7 +120,7 @@ public class Main {
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
 
-			database.startTransactionMixture(transactionMixFile);
+			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 			
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
@@ -144,12 +144,12 @@ public class Main {
 		
 		Main database = new Main("FullDT");		
 		
-		try {
-/*		try (FileWriter fw1 = new FileWriter(pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
-				PrintWriter timestamp = new PrintWriter(fw1);
-					FileWriter fw2 = new FileWriter(pathToResultFolderNormalized + outputResultFile + "_difference.txt");
-					PrintWriter difference = new PrintWriter(fw2)){
-*/
+//		try {
+		try (FileWriter fw1 = new FileWriter(FilesManagement.pathToResultFolderFullyDenormalized + outputResultFile +"_timestamp.txt");
+				PrintWriter timestampResultFile = new PrintWriter(fw1);
+					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderFullyDenormalized + outputResultFile + "_difference.txt");
+					PrintWriter differenceResultFile = new PrintWriter(fw2)){
+
 
 
 			// Drop normalized schema 
@@ -181,7 +181,7 @@ public class Main {
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
 
-			database.startTransactionMixture(transactionMixFile);
+			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 			
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");

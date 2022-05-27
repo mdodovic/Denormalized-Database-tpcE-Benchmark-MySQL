@@ -6,7 +6,11 @@ import java.util.List;
 public class FilesManagement {
 
 	public static final String pathToTransactionMixFolder = "D:/transactionMix/";
-	public static final String pathToResultFolderNormalized = "./src/time_results/normalized/";
+
+	public static final String pathToResultFolderNormalized = "C:/Users/matij/Desktop/tpcE-Benchmark-MySQL/results/normalized/";
+
+	public static final String pathToResultFolderFullyDenormalized = "./src/time_results/fully_normalized/";
+	public static final String pathToResultFolderPartialDenormalized = "./src/time_results/fully_normalized/";
 
 	public static final String pathToData = "D:/flatOut_dataForDatabase/3e6_scale/";
 //	public static final String pathToData = "C:/Users/matij/Desktop/";

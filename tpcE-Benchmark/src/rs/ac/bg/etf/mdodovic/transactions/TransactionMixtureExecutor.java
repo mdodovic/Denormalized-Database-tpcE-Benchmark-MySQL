@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -38,7 +39,7 @@ public class TransactionMixtureExecutor {
 		
 	}
 	
-	public void startTransactionMixture(String transactionMixFile) throws IOException, TransactionError {
+	public void startTransactionMixture(String transactionMixFile, PrintWriter timestampResultFile, PrintWriter differenceResultFile) throws IOException, TransactionError {
 
 		long transactionsNumber = Files.lines(Paths.get(transactionMixFile), StandardCharsets.UTF_8).count();
 	
@@ -54,9 +55,10 @@ public class TransactionMixtureExecutor {
 				BufferedReader br = new BufferedReader(fr);) {
 
 			String s;
+			int i = 0;
 			while((s = br.readLine()) != null){
 				String[] parsedTransaction = s.split(" ");
-				
+				i++;
 				if ("CustomerPositionFrame1".equals(parsedTransaction[1])) {
 					
 					// T2 input data:
@@ -73,7 +75,7 @@ public class TransactionMixtureExecutor {
 					T2.setInputTransactionParameters(cust_id, tax_id, get_history, acct_idx);
 					T2.startTransaction();
 	
-	//				difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+					differenceResultFile.write("" + (System.nanoTime() - startTransaction) + "\n");
 					//System.out.println((System.nanoTime() - startTransaction));
 					readTransactionCounter++;
 	
@@ -97,7 +99,7 @@ public class TransactionMixtureExecutor {
 							type_stop_loss);					
 					T3.startTransaction();
 	
-//					difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+					differenceResultFile.write("" + (System.nanoTime() - startTransaction) + "\n");
 	
 					writeTransactionCounter++;
 				}
@@ -115,7 +117,7 @@ public class TransactionMixtureExecutor {
 					T8.setInputTransactionParameters(acct_id, symbol, hs_qty, trade_qty, -1.);
 					T8.startTransaction(2);
 	
-//					difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+					differenceResultFile.write("" + (System.nanoTime() - startTransaction) + "\n");
 					
 					writeTransactionCounter++;
 				} 					
@@ -131,7 +133,7 @@ public class TransactionMixtureExecutor {
 					T8.setInputTransactionParameters(acct_id, "", -1, -1, se_amount);
 					T8.startTransaction(6);
 
-//					difference.write("" + (System.nanoTime() - startTransaction) + "\n");
+					differenceResultFile.write("" + (System.nanoTime() - startTransaction) + "\n");
 	
 					writeTransactionCounter++;
 				} 		
@@ -143,13 +145,15 @@ public class TransactionMixtureExecutor {
 							+ "% transactions ( w: " + writeTransactionCounter + 
 							"; r: " + readTransactionCounter + ")");
 				}
-	//			timestamp.write("" + System.nanoTime() + "\n");
+				timestampResultFile.write("" + System.nanoTime() + "\n");
 	
 			}
 		} catch (FileNotFoundException e) {
 			throw new TransactionError(e.toString());
 		} catch (IOException e) {
 			throw new TransactionError(e.toString());
+		} catch (TransactionError te) {
+			throw new TransactionError(te.toString());			
 		}
 		
 		transactionMixtureTime = System.nanoTime() - transactionMixtureTime ;
