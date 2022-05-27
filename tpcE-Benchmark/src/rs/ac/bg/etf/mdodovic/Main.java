@@ -20,28 +20,10 @@ public class Main {
 	public static final String PASSWORD = "Kraljice.Natalije.37";
 
 	private Connection connection;
-
-	public static final String pathToResultFolderNormalized = "./src/time_results/normalized/";
 	
-	public static List<String> transactionMixFilesList = new ArrayList<String>();
-	public static List<String> outputResultFileList = new ArrayList<String>();
 	
 	private TransactionMixtureExecutor transactionMixtureExecutor;
-	
-	static {
-		transactionMixFilesList.add("inputData/T2T3T8_T2F1_read_130k.sql");
-		transactionMixFilesList.add("inputData/T2T3T8_T3F1_write_130k.sql");
-		transactionMixFilesList.add("inputData/T2T3T8_T8F2_write_130k.sql");
-		transactionMixFilesList.add("inputData/T2T3T8_T8F6_write_130k.sql");
-		transactionMixFilesList.add("inputData/T2T3T8_T3T8_all_write_130k.sql");
 
-		outputResultFileList.add("T2F1_read_130k");
-		outputResultFileList.add("T3F1_write_130k");
-		outputResultFileList.add("T8F2_write_130k");
-		outputResultFileList.add("T8F6_write_130k");
-		outputResultFileList.add("T3T8_all_write_130k");
-
-	}
 
 	public static String inputDataFile;
 	public static String outputResultFile;
@@ -221,11 +203,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Main.inputDataFile = Main.transactionMixFilesList.get(0);
-		Main.outputResultFile = Main.outputResultFileList.get(0);
+		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(0);
+		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(0);
 		
-//		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+//		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
 	
 
 	}  

@@ -4,17 +4,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import rs.ac.bg.etf.mdodovic.FilesManagement;
 import rs.ac.bg.etf.mdodovic.schema.Tables;
 
 public class NormalizedSchemaLoader {
-
-//	private static final String pathToData = "D:\\flatOut_dataForDatabase\\flat_out\\";
-	private static final String pathToData = "C:/Users/matij/Desktop/";
 	
 	public static void loadData(Connection connection) throws SQLException {
 				
 		String bulkLoadPattern = "LOAD DATA LOCAL INFILE "
-									+ " '" + pathToData + "#1#" + ".txt' "
+									+ " '" + FilesManagement.pathToData + "#1#" + ".txt' "
 									+ "	INTO TABLE tpce_mysql." + "#2#"
 									+ "	FIELDS TERMINATED BY '|' "
 									+ "	LINES TERMINATED BY '\\n' ";
