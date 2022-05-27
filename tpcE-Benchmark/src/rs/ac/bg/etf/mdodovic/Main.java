@@ -10,6 +10,7 @@ import java.util.List;
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.schema.create.FullyDenormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
+import rs.ac.bg.etf.mdodovic.schema.loaddata.FullyDenormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
 
@@ -184,7 +185,7 @@ public class Main {
 			// Load data to normalized schema
 			NormalizedSchemaLoader.loadData(database.getConnection());
 			// Load data to normalized schema
-//			FullyDenormalizedSchemaLoader.loadData(database.getConnection());
+			FullyDenormalizedSchemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data finished\n");
 
 //			// Raise foreign keys - not necessary
