@@ -91,6 +91,7 @@ public abstract class CustomerPosition_T2 {
 		
 	protected void fillDataToTradeRows(ResultSet rs) throws SQLException {
 		
+		tradeRowData.clear();
 		while (rs.next()) {
 			TradeRow tr = new TradeRow();
 			
@@ -108,6 +109,7 @@ public abstract class CustomerPosition_T2 {
 	
 	protected void fillDataToCustomerAccountRows(ResultSet rs) throws SQLException {
 
+		customerAccountRowData.clear();
 		while (rs.next()) {
 			CustomerAccountRow car = new CustomerAccountRow();
 			car.CA_BAL = rs.getDouble("CA_BAL");
@@ -122,6 +124,7 @@ public abstract class CustomerPosition_T2 {
 	
 	protected void fillDataToCustomerRows(ResultSet rs) throws SQLException {
 
+		customerRowData.clear();
 		while (rs.next()) {
 			CustomerRow cr = new CustomerRow();
 			cr.C_AD_ID = rs.getLong("C_AD_ID");

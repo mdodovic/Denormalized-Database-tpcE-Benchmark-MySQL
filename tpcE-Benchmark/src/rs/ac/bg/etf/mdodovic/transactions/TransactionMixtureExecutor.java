@@ -55,10 +55,9 @@ public class TransactionMixtureExecutor {
 				BufferedReader br = new BufferedReader(fr);) {
 
 			String s;
-			int i = 0;
 			while((s = br.readLine()) != null){
 				String[] parsedTransaction = s.split(" ");
-				i++;
+
 				if ("CustomerPositionFrame1".equals(parsedTransaction[1])) {
 					
 					// T2 input data:
@@ -152,8 +151,6 @@ public class TransactionMixtureExecutor {
 			throw new TransactionError(e.toString());
 		} catch (IOException e) {
 			throw new TransactionError(e.toString());
-		} catch (TransactionError te) {
-			throw new TransactionError(te.toString());			
 		}
 		
 		transactionMixtureTime = System.nanoTime() - transactionMixtureTime ;
