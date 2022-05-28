@@ -39,7 +39,7 @@ public class Main {
 	}
 	
 	public void startTransactionMixture(String transactionMixFile, PrintWriter timestampResultFile, PrintWriter differenceResultFile) throws IOException, TransactionError {
-		transactionMixtureExecutor.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
+//		transactionMixtureExecutor.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 	}		
 	
 	public void connectToMySQL() {
@@ -99,6 +99,8 @@ public class Main {
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
 			// Drop fully denormalized schema 
 			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+//			// Drop partially denormalized schema 
+//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
@@ -150,12 +152,12 @@ public class Main {
 					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderFullyDenormalized + outputResultFile + "_difference.txt");
 					PrintWriter differenceResultFile = new PrintWriter(fw2)){
 
-
-
 			// Drop normalized schema 
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
 			// Drop fully denormalized schema 
 			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+//			// Drop partially denormalized schema 
+//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
@@ -204,24 +206,23 @@ public class Main {
 	public static void main(String[] args) {
 		
 
-		// Normalized schema
-		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
-			
-			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
-			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
-			
-			tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-
-			
-		}
+//		// Normalized schema
+//		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
+//			
+//			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+//			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+//			
+//			tpcENormalized(Main.inputDataFile, Main.outputResultFile);
+//
+//			
+//		}
 		
-//		int i = 0;
-//		
-//		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
-//		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
-//		
-////		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-//		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+		int i = 0;
+		
+		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+		
+		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
 
 
 
