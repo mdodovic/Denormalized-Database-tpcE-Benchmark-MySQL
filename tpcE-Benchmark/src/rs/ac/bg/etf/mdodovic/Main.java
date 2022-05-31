@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.schema.create.FullyDenormalizedSchemaCreator;
@@ -40,7 +38,7 @@ public class Main {
 	}
 	
 	public void startTransactionMixture(String transactionMixFile, PrintWriter timestampResultFile, PrintWriter differenceResultFile) throws IOException, TransactionError {
-//		transactionMixtureExecutor.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
+		transactionMixtureExecutor.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 	}		
 	
 	public void connectToMySQL() {
@@ -90,7 +88,6 @@ public class Main {
 		
 		Main database = new Main("NT");		
 		
-//		try {
 		try (FileWriter fw1 = new FileWriter(FilesManagement.pathToResultFolderNormalized + outputResultFile +"_timestamp.txt");
 				PrintWriter timestampResultFile = new PrintWriter(fw1);
 					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderNormalized + outputResultFile + "_difference.txt");
@@ -100,7 +97,7 @@ public class Main {
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
 			// Drop fully denormalized schema 
 			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
-//			// Drop partially denormalized schema 
+			// Drop partially denormalized schema 
 			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
@@ -116,9 +113,9 @@ public class Main {
 			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
 			System.out.println("Foreign keys raising finished\n");
 
-//			// Raise indexes - not necessary
-//			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
-//			System.out.println("Indexes raising finished");
+			// Raise indexes [no indexes on NT]
+			NormalizedSchemaCreator.raiseIndexes(database.getConnection());
+			System.out.println("Indexes raising finished");
 
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
@@ -157,8 +154,8 @@ public class Main {
 			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
 			// Drop fully denormalized schema 
 			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
-//			// Drop partially denormalized schema 
-//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+			// Drop partially denormalized schema 
+			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
@@ -173,9 +170,9 @@ public class Main {
 			FullyDenormalizedSchemaLoader.loadData(database.getConnection());
 			System.out.println("Loading data finished\n");
 
-//			// Raise foreign keys - not necessary
-//			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-//			System.out.println("Foreign keys raising finished\n");
+			// Raise foreign keys [no foreign keys on FullyDT]
+			FullyDenormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+			System.out.println("Foreign keys raising finished\n");
 
 			// Raise indexes
 			FullyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
