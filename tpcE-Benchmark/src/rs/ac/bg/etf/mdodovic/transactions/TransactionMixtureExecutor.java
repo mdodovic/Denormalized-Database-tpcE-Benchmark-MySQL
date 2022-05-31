@@ -42,7 +42,7 @@ public class TransactionMixtureExecutor {
 				T3 = new MarketFeed_T3_FullyDenormalized(connection);
 				break;
 
-			case "PartialNT": 
+			case "PartialDT": 
 				T2 = new CustomerPozition_T2_PartiallyDenormalized(connection);
 				T8 = new TradeResult_T8_PartiallyDenormalized(connection);
 				T3 = new MarketFeed_T3_PartiallyDenormalized(connection);
