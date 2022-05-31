@@ -16,7 +16,7 @@ public class TradeResult_T8_PartiallyDenormalized extends TradeResult_T8 {
 	@Override
 	public void invokeTradeResultFrame2_T8F2() throws TransactionError {
 
-		String updateHoldingSummary = "UPDATE tpce_mysql.DTT2T3T8 "
+		String updateHoldingSummary = "UPDATE tpce_mysql.DTT2T3T8F2 "
 										+ "	SET DT_HS_QTY = ? + ? "
 										+ " WHERE DT_CA_ID = ? "
 										+ "		AND DT_HS_S_SYMB = ? ";
@@ -55,7 +55,7 @@ public class TradeResult_T8_PartiallyDenormalized extends TradeResult_T8 {
 	@Override
 	public void invokeTradeResultFrame6_T8F6() throws TransactionError {
 
-		String updateLastTrade = "UPDATE tpce_mysql.DTT2T3T8 "
+		String updateLastTrade = "UPDATE tpce_mysql.DTT8F6 "
 								+ "	SET DT_CA_BAL = DT_CA_BAL + ? "
 								+ "	WHERE DT_CA_ID = ? ";
 

@@ -20,7 +20,7 @@ public class MarketFeed_T3_PartiallyDenormalized extends MarketFeed_T3 {
 		for(int i = 0; i < price_quote.length/*Constraints.max_feed_len*/; i++) {
 			// must be as a signle transaction with rollback mechanism
 
-			String updateLastTrade = "UPDATE tpce_mysql.DTT2T3T8 "
+			String updateLastTrade = "UPDATE tpce_mysql.DTT2T3T8F2 "
 									+ "	SET DT_LT_PRICE = ? "
 									+ "	WHERE DT_HS_S_SYMB = ? ";
 									

@@ -290,7 +290,7 @@ public class Main {
 //		}
 		
 		
-		int i = 0;
+		int i = 1;
 		
 		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
 		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
