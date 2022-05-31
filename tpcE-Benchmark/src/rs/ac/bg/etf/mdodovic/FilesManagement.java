@@ -5,15 +5,16 @@ import java.util.List;
 
 public class FilesManagement {
 
-	public static final String pathToTransactionMixFolder = "D:/transactionMix/";
+//	public static final String pathToTransactionMixFolder = "D:/transactionMix/3e6_scale/";
+	public static final String pathToTransactionMixFolder = "C:/Users/matij/Desktop/transactionMix/3e6_scale/";
 
 	public static final String pathToResultFolderNormalized = "C:/Users/matij/Desktop/tpcE-Benchmark-MySQL/results/normalized/";
 
 	public static final String pathToResultFolderFullyDenormalized = "C:/Users/matij/Desktop/tpcE-Benchmark-MySQL/results/fully_denormalized/";
 	public static final String pathToResultFolderPartiallyDenormalized = "C:/Users/matij/Desktop/tpcE-Benchmark-MySQL/results/partially_denormalized/";
 
-	public static final String pathToData = "D:/flatOut_dataForDatabase/3e6_scale/";
-//	public static final String pathToData = "C:/Users/matij/Desktop/";
+//	public static final String pathToData = "D:/flatOut_dataForDatabase/3e6_scale/";
+	public static final String pathToData = "C:/Users/matij/Desktop/flatOut_dataForDatabase/3e6_scale/";
 
 	
 	public static List<String> transactionMixFilesList = new ArrayList<String>();
