@@ -1,7 +1,6 @@
 package rs.ac.bg.etf.mdodovic.transactions.FullyDT;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -15,35 +14,22 @@ public class MarketFeed_T3_FullyDenormalized extends MarketFeed_T3 {
 	}
 
 	@Override
-	public void invokeMarketFeedFrame1_T3F1() throws TransactionError {
-		long millis = System.currentTimeMillis();
-		Date currentDate = new Date(millis); // current date
-		/*
-		TradeRequestBuffer[]
-		long req_price_quote S_PRICE_T
-		long req_trade_id TRADE_T
-		long req_trade_qty S_QTY_T
-		String req_trade_type 
-		int rows_sent;
-		*/
+	public void invokeMarketFeedFrame1_T3F1() throws TransactionError {		
+		
 		int rows_updated = 0;
-		
-		
 		for(int i = 0; i < price_quote.length/*Constraints.max_feed_len*/; i++) {
 			// must be as a signle transaction with rollback mechanism
 
-			String updateLastTrade = "update tpce_mysql.LAST_TRADE "
-									+ "	set LT_PRICE = ?, LT_VOL = LT_VOL + ?, LT_DTS = ? "
-									+ "	where LT_S_SYMB = ? ";
+			String updateLastTrade = "UPDATE tpce_mysql.DTT2T3T8 "
+									+ "	SET DT_LT_PRICE = ? "
+									+ "	WHERE DT_HS_S_SYMB = ? ";
 									
 			try (PreparedStatement stmt = connection.prepareStatement(updateLastTrade)){
 
 				connection.setAutoCommit(false);
 				
 				stmt.setDouble(1, price_quote[i]);
-				stmt.setLong(2, trade_qty[i]);			
-				stmt.setDate(3, currentDate);
-				stmt.setString(4, symbol[i]);			
+				stmt.setString(2, symbol[i]);			
 
 				int row_count = stmt.executeUpdate();				
 				rows_updated = rows_updated + row_count;
