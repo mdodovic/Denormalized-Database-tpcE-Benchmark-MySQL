@@ -153,7 +153,7 @@ public class TransactionMixtureExecutor {
 				if(currentTransaction % 1000 == 0) {
 					System.out.println("Finished " + 
 							String.format("%.2f", 100. * currentTransaction / transactionsNumber) 
-							+ "% transactions ( w: " + writeTransactionCounter + 
+							+ "% transactions (w: " + writeTransactionCounter + 
 							"; r: " + readTransactionCounter + ")");
 				}
 				timestampResultFile.write("" + System.nanoTime() + "\n");
