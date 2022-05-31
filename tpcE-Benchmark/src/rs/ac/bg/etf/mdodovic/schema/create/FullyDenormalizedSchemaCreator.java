@@ -13,17 +13,17 @@ public class FullyDenormalizedSchemaCreator {
 	public static void createFullyDenormalizedDatabaseSchema(Connection connection) throws SQLException {
 
 		String createSchemaQuery;
-		Statement stmt;		
-		
-		for (String tableName: Tables.fullyDenormalizedTableNames) {
+		Statement stmt;				
+		String tableName;
 
-			createSchemaQuery = createTableQuery(tableName);
-			stmt = connection.createStatement();
-			stmt.executeUpdate(createSchemaQuery);
+		tableName = Tables.fullyDenormalizedTableName;
+
+		createSchemaQuery = createTableQuery(tableName);
+		stmt = connection.createStatement();
+		stmt.executeUpdate(createSchemaQuery);
+		
+		System.out.println("Table: " + tableName + " successfully created");
 			
-			System.out.println("Table: " + tableName + " successfully created");
-			
-		}
 		
 		System.out.println("------------------------------------------------------------");
 		
@@ -35,16 +35,15 @@ public class FullyDenormalizedSchemaCreator {
 
 		String dropQuery;
 		Statement stmt;
-		
-		for(String tableName: Tables.fullyDenormalizedTableNames) {
-			dropQuery = dropQueryPattern.replace("###",  tableName);
-		
-			stmt = connection.createStatement();
-			stmt.executeUpdate(dropQuery);
+		String tableName;
 
-			System.out.println("Table: " + tableName + " successfully deleted");
+		tableName = Tables.fullyDenormalizedTableName;
+		dropQuery = dropQueryPattern.replace("###",  tableName);
+	
+		stmt = connection.createStatement();
+		stmt.executeUpdate(dropQuery);
 
-		}
+		System.out.println("Table: " + tableName + " successfully deleted");
 
 		System.out.println("------------------------------------------------------------");
 
@@ -54,17 +53,17 @@ public class FullyDenormalizedSchemaCreator {
 		
 		String foreignKeyConstraintsQuery;
 		Statement stmt; 
-		
-		for(String tableName: Tables.fullyDenormalizedTableNames) {
-			
-			foreignKeyConstraintsQuery = createForeignKeyConstraintsTableQuerry(tableName);
-			if(foreignKeyConstraintsQuery != null) {
-				stmt = connection.createStatement();
-				stmt.executeUpdate(foreignKeyConstraintsQuery);
-				
-				System.out.println("Foreign key(s) on table " + tableName + " successfully raised");
+		String tableName;
 
-			}
+		tableName = Tables.fullyDenormalizedTableName;
+		
+		foreignKeyConstraintsQuery = createForeignKeyConstraintsTableQuerry(tableName);
+		if(foreignKeyConstraintsQuery != null) {
+			stmt = connection.createStatement();
+			stmt.executeUpdate(foreignKeyConstraintsQuery);
+			
+			System.out.println("Foreign key(s) on table " + tableName + " successfully raised");
+
 		}
 
 		System.out.println("------------------------------------------------------------");
