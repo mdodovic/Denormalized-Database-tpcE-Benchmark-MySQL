@@ -279,24 +279,25 @@ public class Main {
 //			
 //		}
 
-		// Denormalized schema
-		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
-			
-			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
-			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
-			
-			tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
-			
-		}
+//		// Denormalized schema
+//		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
+//			
+//			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+//			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+//			
+//			tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+//			
+//		}
 		
 		
-		int i = 3;
+		int i = 0;
 		
 		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
 		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
 		
 //		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
 //		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+		tpcEPartiallyDenormalized(Main.inputDataFile, Main.outputResultFile);
 
 
 

@@ -17,6 +17,9 @@ import rs.ac.bg.etf.mdodovic.transactions.FullyDT.TradeResult_T8_FullyDenormaliz
 import rs.ac.bg.etf.mdodovic.transactions.NT.CustomerPozition_T2_Normalized;
 import rs.ac.bg.etf.mdodovic.transactions.NT.MarketFeed_T3_Normalized;
 import rs.ac.bg.etf.mdodovic.transactions.NT.TradeResult_T8_Normalized;
+import rs.ac.bg.etf.mdodovic.transactions.PartiallyDT.CustomerPozition_T2_PartiallyDenormalized;
+import rs.ac.bg.etf.mdodovic.transactions.PartiallyDT.MarketFeed_T3_PartiallyDenormalized;
+import rs.ac.bg.etf.mdodovic.transactions.PartiallyDT.TradeResult_T8_PartiallyDenormalized;
 
 public class TransactionMixtureExecutor {
 	
@@ -40,6 +43,9 @@ public class TransactionMixtureExecutor {
 				break;
 
 			case "PartialNT": 
+				T2 = new CustomerPozition_T2_PartiallyDenormalized(connection);
+				T8 = new TradeResult_T8_PartiallyDenormalized(connection);
+				T3 = new MarketFeed_T3_PartiallyDenormalized(connection);
 				break;
 		}
 		
