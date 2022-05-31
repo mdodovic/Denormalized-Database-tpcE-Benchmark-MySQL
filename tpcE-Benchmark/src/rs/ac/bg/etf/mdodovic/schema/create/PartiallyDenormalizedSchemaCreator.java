@@ -118,9 +118,9 @@ public class PartiallyDenormalizedSchemaCreator {
 		Statement stmt;
 		PreparedStatement pStmt;
 		ResultSet rs;
-/*		
-		tableName = "DTT2T3T8";
-		indexName = "DTT2T3T8_Index_DT_CA_C_ID";
+		
+		tableName = "DTT2T3T8F2";
+		indexName = "DTT2T3T8F2_Index_DT_CA_C_ID";
 		columnName = "DT_CA_C_ID";
 						
 		pStmt = connection.prepareStatement(hasIndexOnTableQuery);  
@@ -150,8 +150,8 @@ public class PartiallyDenormalizedSchemaCreator {
 		System.out.println("Index: " + indexName + " successfully created");
 
 		
-		tableName = "DTT2T3T8";
-		indexName = "DTT2T3T8_Index_DT_HS_S_SYMB__DT_CA_ID";
+		tableName = "DTT2T3T8F2";
+		indexName = "DTT2T3T8F2_Index_DT_HS_S_SYMB__DT_CA_ID";
 		columnName = "DT_HS_S_SYMB, DT_CA_ID";
 						
 		pStmt = connection.prepareStatement(hasIndexOnTableQuery);  
@@ -179,7 +179,7 @@ public class PartiallyDenormalizedSchemaCreator {
 		stmt.execute(createIndexQuery);
 
 		System.out.println("Index: " + indexName + " successfully created");
-*/
+
 		System.out.println("------------------------------------------------------------");
 
 		
