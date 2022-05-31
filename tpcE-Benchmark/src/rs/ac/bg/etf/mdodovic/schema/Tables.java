@@ -13,19 +13,22 @@ public class Tables {
 		};
 	
 	/**
-	 * Full denormalization made for transactions: T2F1, T3, T8F2 and T8F6 (all)
+	 * Full denormalization made for transactions: T2F1, T3, T8F2 and T8F6 (DTT2T3T8)
 	 */
-	public static final String[] fullyDenormalizedTableNames = new String[] {
-			"DTT2T3T8"
-		};
+	public static final String fullyDenormalizedTableName = "DTT2T3T8";
+	
 			
 	/**
-	 * Partial denormalization made for transactions: T2F1, T3, T8F2 (first table) and T8F6 (second table)
+	 * Partial denormalization made for transactions: T2F1, T3, T8F2 (DTT2T3T8F2) and T8F6 (DTT8F6)
+	 * This table covers T2F1, T3 and T8F2 transactions
 	 */
-	public static final String[] partiallyDenormalizedTableNames = new String[] {
-			"DTT2T3T8F2",
-			"DTT8F6"
-		};
+	public static final String partiallyDenormalizedTableT2T3T8F2 = "DTT2T3T8F2";
+
+	/**
+	 * Partial denormalization made for transactions: T2F1, T3, T8F2 (DTT2T3T8F2) and T8F6 (DTT8F6)
+	 * This table covers T8F6 transaction
+	 */
+	public static final String partiallyDenormalizedTableT8F6= "DTT8F6";
 
 
 }
