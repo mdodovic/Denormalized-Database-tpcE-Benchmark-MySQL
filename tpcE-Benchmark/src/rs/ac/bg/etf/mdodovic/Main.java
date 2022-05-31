@@ -13,6 +13,7 @@ import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.create.PartiallyDenormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.FullyDenormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
+import rs.ac.bg.etf.mdodovic.schema.loaddata.PartiallyDenormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
 
 public class Main {
@@ -144,7 +145,6 @@ public class Main {
 		
 		Main database = new Main("FullDT");		
 		
-//		try {
 		try (FileWriter fw1 = new FileWriter(FilesManagement.pathToResultFolderFullyDenormalized + outputResultFile +"_timestamp.txt");
 				PrintWriter timestampResultFile = new PrintWriter(fw1);
 					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderFullyDenormalized + outputResultFile + "_difference.txt");
@@ -201,6 +201,68 @@ public class Main {
 		
 	}
 	
+
+	public static void tpcEPartiallyDenormalized(String transactionMixFile, String outputResultFile) {
+		
+		long applicationTime = System.nanoTime();
+		
+		Main database = new Main("PartialDT");		
+		
+		try (FileWriter fw1 = new FileWriter(FilesManagement.pathToResultFolderPartiallyDenormalized + outputResultFile +"_timestamp.txt");
+				PrintWriter timestampResultFile = new PrintWriter(fw1);
+					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderPartiallyDenormalized + outputResultFile + "_difference.txt");
+					PrintWriter differenceResultFile = new PrintWriter(fw2)){
+
+			// Drop normalized schema 
+			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+			// Drop fully denormalized schema 
+			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+			// Drop partially denormalized schema 
+			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
+			System.out.println("Dropping database schema finished\n");
+			
+			// Create normalized schema 
+			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+			// Create fully denormalized schema 
+			PartiallyDenormalizedSchemaCreator.createPartiallyDenormalizedDatabaseSchema(database.getConnection());
+			System.out.println("Database schema creation finished\n");
+			
+			// Load data to normalized schema
+			NormalizedSchemaLoader.loadData(database.getConnection());
+			// Load data to normalized schema
+			PartiallyDenormalizedSchemaLoader.loadData(database.getConnection());
+			System.out.println("Loading data finished\n");
+
+			// Raise foreign keys on normalized schema
+			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+			// Raise foreign keys on fully denormalized schema [no foreign keys on FullyDT]
+			PartiallyDenormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+			System.out.println("Foreign keys raising finished\n");
+
+			// Raise indexes
+			PartiallyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
+			System.out.println("Indexes raising finished");
+
+			long coldStartTime = System.nanoTime() - applicationTime;
+			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
+
+//			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
+			
+			applicationTime = System.nanoTime() - applicationTime;
+			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransactionError e) {
+			e.printStackTrace();
+		} finally {
+			database.disconnectFromMySQL();
+		}
+
+		
+	}
 	
 	
 	public static void main(String[] args) {
