@@ -37,7 +37,7 @@ public class PartiallyDenormalizedSchemaCreator {
 		
 	}
 	
-	public static void dropFullyDenormalizedDatabaseChema(Connection connection) throws SQLException {
+	public static void dropPartiallyDenormalizedDatabaseChema(Connection connection) throws SQLException {
 		
 		String dropQueryPattern = "DROP TABLE IF EXISTS ### CASCADE;";
 

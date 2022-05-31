@@ -12,6 +12,7 @@ import java.util.List;
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
 import rs.ac.bg.etf.mdodovic.schema.create.FullyDenormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.create.NormalizedSchemaCreator;
+import rs.ac.bg.etf.mdodovic.schema.create.PartiallyDenormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.FullyDenormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
@@ -100,7 +101,7 @@ public class Main {
 			// Drop fully denormalized schema 
 			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 //			// Drop partially denormalized schema 
-//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
