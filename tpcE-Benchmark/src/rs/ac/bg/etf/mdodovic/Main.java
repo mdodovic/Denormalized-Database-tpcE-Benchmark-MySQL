@@ -271,31 +271,48 @@ public class Main {
 		// Normalized schema
 		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
 			
+			System.out.println("[Schema]: Normalized");
+			
 			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
 			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
 			
+			System.out.println("[File]: " + Main.inputDataFile.split("/")[Main.inputDataFile.split("/").length - 1]);
+						
 			tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-
+			
+			System.out.println();
 			
 		}
 
 		// Fully denormalized schema
 		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
-			
+
+			System.out.println("[Schema]: Fully denormalized");
+
 			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
 			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+
+			System.out.println("[File]: " + Main.inputDataFile.split("/")[Main.inputDataFile.split("/").length - 1]);
 			
 			tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+
+			System.out.println();
 			
 		}
 
 		// Partially denormalized schema
 		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
 			
+			System.out.println("[Schema]: Partially denormalized");
+
 			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
 			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+
+			System.out.println("[File]: " + Main.inputDataFile.split("/")[Main.inputDataFile.split("/").length - 1]);
 			
 			tpcEPartiallyDenormalized(Main.inputDataFile, Main.outputResultFile);
+
+			System.out.println();
 			
 		}
 
