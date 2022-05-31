@@ -155,7 +155,7 @@ public class Main {
 			// Drop fully denormalized schema 
 			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
 			// Drop partially denormalized schema 
-			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
 			System.out.println("Dropping database schema finished\n");
 			
 			// Create normalized schema 
@@ -181,7 +181,7 @@ public class Main {
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
 
-			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
+//			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 			
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
@@ -220,6 +220,7 @@ public class Main {
 		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
 		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
 		
+//		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
 		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
 
 

@@ -11,6 +11,9 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 
 import rs.ac.bg.etf.mdodovic.errors.TransactionError;
+import rs.ac.bg.etf.mdodovic.transactions.FullyDT.CustomerPozition_T2_FullyDenormalized;
+import rs.ac.bg.etf.mdodovic.transactions.FullyDT.MarketFeed_T3_FullyDenormalized;
+import rs.ac.bg.etf.mdodovic.transactions.FullyDT.TradeResult_T8_FullyDenormalized;
 import rs.ac.bg.etf.mdodovic.transactions.NT.CustomerPozition_T2_Normalized;
 import rs.ac.bg.etf.mdodovic.transactions.NT.MarketFeed_T3_Normalized;
 import rs.ac.bg.etf.mdodovic.transactions.NT.TradeResult_T8_Normalized;
@@ -31,6 +34,9 @@ public class TransactionMixtureExecutor {
 				break;
 
 			case "FullDT": 
+				T2 = new CustomerPozition_T2_FullyDenormalized(connection);
+				T8 = new TradeResult_T8_FullyDenormalized(connection);
+				T3 = new MarketFeed_T3_FullyDenormalized(connection);
 				break;
 
 			case "PartialNT": 
