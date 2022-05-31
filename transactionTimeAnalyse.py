@@ -10,18 +10,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math as math
 
-pathToNormalizedData = "C:/Users/Matija/Desktop/Fakultet/DiplomskiRad/TPC-E/tpcEBanchmark/src/time_results/normalized/";
-pathToIndexedData = "C:/Users/Matija/Desktop/Fakultet/DiplomskiRad/TPC-E/tpcEBanchmark/src/time_results/indexes/";
-pathToDenormalizedData = "C:/Users/Matija/Desktop/Fakultet/DiplomskiRad/TPC-E/tpcEBanchmark/src/time_results/denormalized/";
+pathToNormalizedData = "./results/normalized/";
+pathToFullyDenormalizedData = "./results/fully_denormalized/";
+pathToPartiallyDenormalizedData = "./results/partially_denormalized/";
 
-pathToResultTPCE = "C:/Users/Matija/Desktop/Fakultet/DiplomskiRad/result_analyse/time_graphs/";
+pathToResultTPCE = "./results/time_graphs/";
 
 def normalized(file_name):
         
     
     file_time_stamp = file_name + "_timestamp.txt"
 
-    time_stamp_data = np.loadtxt(pathToNormalizedData + file_time_stamp, unpack=True)#ovde ubacujes disk
+    time_stamp_data = np.loadtxt(pathToNormalizedData + file_time_stamp, unpack=True)
     
     time_stamp_data = (time_stamp_data - time_stamp_data[0]) / 1000 / 60 / 1000000
     
@@ -58,18 +58,18 @@ def normalized(file_name):
     plt.plot(time_stamp, number_of_transactions)
  
 
-def indexed(file_name):
+def fully_denormalized(file_name):
         
     
     file_time_stamp = file_name + "_timestamp.txt"
 
-    time_stamp_data = np.loadtxt(pathToIndexedData + file_time_stamp, unpack=True)#ovde ubacujes disk
+    time_stamp_data = np.loadtxt(pathToFullyDenormalizedData + file_time_stamp, unpack=True)#ovde ubacujes disk
     
     time_stamp_data = (time_stamp_data - time_stamp_data[0]) / 1000 / 60 / 1000000
     
 
     
-    print("[IndexedView]: ", round(time_stamp_data[-1] - time_stamp_data[0],2))
+    print("[FullyDenormalized]: ", round(time_stamp_data[-1] - time_stamp_data[0],2))
     time_stamp = np.zeros(math.ceil(time_stamp_data[-1] - time_stamp_data[0]))
     number_of_transactions = np.zeros(len(time_stamp))
     #total_time = len(time_stamp)
@@ -99,18 +99,19 @@ def indexed(file_name):
     
     plt.plot(time_stamp, number_of_transactions)
 
-def denormalized(file_name):
+
+def partially_denormalized(file_name):
         
     
     file_time_stamp = file_name + "_timestamp.txt"
 
-    time_stamp_data = np.loadtxt(pathToDenormalizedData + file_time_stamp, unpack=True)#ovde ubacujes disk
+    time_stamp_data = np.loadtxt(pathToPartiallyDenormalizedData + file_time_stamp, unpack=True)#ovde ubacujes disk
     
     time_stamp_data = (time_stamp_data - time_stamp_data[0]) / 1000 / 60 / 1000000
     
 
     
-    print("[Denormalized]: ", round(time_stamp_data[-1] - time_stamp_data[0],2))
+    print("[PartiallyDenormalized]: ", round(time_stamp_data[-1] - time_stamp_data[0],2))
     time_stamp = np.zeros(math.ceil(time_stamp_data[-1] - time_stamp_data[0]))
     number_of_transactions = np.zeros(len(time_stamp))
     #total_time = len(time_stamp)
@@ -144,10 +145,10 @@ def denormalized(file_name):
 if __name__ == "__main__":
            
     file_name = "T2F1_read_130k"
-    
+    print("T2F1")
     normalized(file_name)
-    indexed(file_name)
-    denormalized(file_name)
+    fully_denormalized(file_name)
+    partially_denormalized(file_name)
     
     
     plt.xlabel("time [minutes]")
@@ -162,31 +163,33 @@ if __name__ == "__main__":
     
     file_name = "T3F1_write_130k"
     
+    print("T3F1")
     normalized(file_name)
-    #indexed(file_name)
-    denormalized(file_name)
+    fully_denormalized(file_name)
+    partially_denormalized(file_name)
     
     
     plt.xlabel("time [minutes]")
     plt.ylabel("Number of transactions")
     plt.title("[T3F1] Number of transactions per 1/6 of minute")
     #plt.legend(['Normalized table', 'Indexed view', 'Denormalized table'])
-    plt.legend(['Normalized table', 'Denormalized table'])
+    plt.legend(['Normalized table', 'Fully denormalized table', 'Partially denormalized table'])
     #plt.savefig(pathToResultTPCE + file_name + ".png", dpi = 90)
     plt.show()
     
     
     file_name = "T8F2_write_130k"
     
+    print("T8F2")
     normalized(file_name)
-    #indexed(file_name)
-    denormalized(file_name)
+    fully_denormalized(file_name)
+    partially_denormalized(file_name)
     
     plt.xlabel("time [minutes]")
     plt.ylabel("Number of transactions")
     plt.title("[T8F2] Number of transactions per 1/6 of minute")
     #plt.legend(['Normalized table', 'Indexed view', 'Denormalized table'])
-    plt.legend(['Normalized table', 'Denormalized table'])
+    plt.legend(['Normalized table', 'Fully denormalized table', 'Partially denormalized table'])
     #plt.savefig(pathToResultTPCE + file_name + ".png", dpi = 90)
     plt.show()
 
@@ -195,34 +198,20 @@ if __name__ == "__main__":
 
     file_name = "T8F6_write_130k"
     
+    print("T8F6")
     normalized(file_name)
-    #indexed(file_name)
-    denormalized(file_name)
+    fully_denormalized(file_name)
+    partially_denormalized(file_name)
     
     plt.xlabel("time [minutes]")
     plt.ylabel("Number of transactions")
     plt.title("[T8F6] Number of transactions per 1/6 of minute")
     #plt.legend(['Normalized table', 'Indexed view', 'Denormalized table'])
-    plt.legend(['Normalized table', 'Denormalized table'])
+    plt.legend(['Normalized table', 'Fully denormalized table', 'Partially denormalized table'])
     #plt.savefig(pathToResultTPCE + file_name + ".png", dpi = 90)
     plt.show()
     
     
-    
-    file_name = "T3T8_all_write_130k"
-    
-    normalized(file_name)
-    indexed("write_only_130k")
-    denormalized(file_name)
-    
-    
-    plt.xlabel("time [minutes]")
-    plt.ylabel("Number of transactions")
-    plt.title("[Write] Number of transactions per 1/6 of minute")
-    plt.legend(['Normalized table', 'Indexed view', 'Denormalized table'])
-    #plt.legend(['Normalized table', 'Denormalized table'])
-    #plt.savefig(pathToResultTPCE + file_name + ".png", dpi = 90)
-    plt.show()
     
     """
     Brisi 
