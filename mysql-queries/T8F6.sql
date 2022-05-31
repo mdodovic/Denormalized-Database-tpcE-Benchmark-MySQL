@@ -1,0 +1,3 @@
+update tpce_mysql.CUSTOMER_ACCOUNT
+	set CA_BAL = CA_BAL + 10000000
+    WHERE CA_ID = 43000000001
