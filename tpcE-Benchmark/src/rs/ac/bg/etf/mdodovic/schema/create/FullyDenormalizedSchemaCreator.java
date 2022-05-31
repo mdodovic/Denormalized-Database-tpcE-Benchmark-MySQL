@@ -70,7 +70,6 @@ public class FullyDenormalizedSchemaCreator {
 
 	}	
 
-	// Not used - not implemented well
 	public static void raiseIndexes(Connection connection) throws SQLException {
 
 		String indexName;
