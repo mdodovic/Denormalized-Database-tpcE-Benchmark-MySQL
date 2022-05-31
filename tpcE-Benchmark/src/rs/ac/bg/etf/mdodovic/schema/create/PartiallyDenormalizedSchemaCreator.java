@@ -185,6 +185,31 @@ public class PartiallyDenormalizedSchemaCreator {
 		
 	}
 
+	public static String createForeignKeyConstraintsTableQuerry(String tableName) {
+
+		switch(tableName) {
+			
+			case "DTT2T3T8F2": return null;
+			
+			case "DTT8F6": return null;
+
+			default: return null;	
+		}
+			
+	}
+
+	private static String createTableQuery(String tableName) {
+		
+		switch(tableName) {
+
+			case "DTT2T3T8F2": return "";
+	
+			case "DTT8F6": return "";
+			
+			default: return null;	
+		}
+		
+	}
 
 	
 }
