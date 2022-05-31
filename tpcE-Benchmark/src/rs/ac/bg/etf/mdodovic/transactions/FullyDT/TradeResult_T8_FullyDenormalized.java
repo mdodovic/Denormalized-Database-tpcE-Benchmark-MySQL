@@ -16,9 +16,10 @@ public class TradeResult_T8_FullyDenormalized extends TradeResult_T8 {
 	@Override
 	public void invokeTradeResultFrame2_T8F2() throws TransactionError {
 
-		String updateHoldingSummary = "update tpce_mysql.HOLDING_SUMMARY "
-									+ "	set HS_QTY = ? + ? "
-									+ "	where HS_CA_ID = ? and HS_S_SYMB = ? ";
+		String updateHoldingSummary = "UPDATE tpce_mysql.DTT2T3T8 "
+										+ "	SET DT_HS_QTY = ? + ? "
+										+ " WHERE DT_CA_ID = ? "
+										+ "		AND DT_HS_S_SYMB = ? ";
 	
 		// Index is established already: PK = (HS_CA_ID, HS_S_SYMB);
 		try (PreparedStatement stmt = connection.prepareStatement(updateHoldingSummary)){
@@ -54,9 +55,9 @@ public class TradeResult_T8_FullyDenormalized extends TradeResult_T8 {
 	@Override
 	public void invokeTradeResultFrame6_T8F6() throws TransactionError {
 
-		String updateLastTrade = "update tpce_mysql.CUSTOMER_ACCOUNT "
-								+ "	set CA_BAL = CA_BAL + ? "
-								+ "    WHERE CA_ID = ? ";
+		String updateLastTrade = "UPDATE tpce_mysql.DTT2T3T8 "
+								+ "	SET DT_CA_BAL = DT_CA_BAL + ? "
+								+ "	WHERE DT_CA_ID = ? ";
 
 		// Index is established already: PK = (CA_ID);
 		
