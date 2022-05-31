@@ -150,44 +150,46 @@ public class Main {
 					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderFullyDenormalized + outputResultFile + "_difference.txt");
 					PrintWriter differenceResultFile = new PrintWriter(fw2)){
 
-			// Drop normalized schema 
-			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
-			// Drop fully denormalized schema 
-			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
-			// Drop partially denormalized schema 
-			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
-			System.out.println("Dropping database schema finished\n");
-			
-			// Create normalized schema 
-			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
-			// Create fully denormalized schema 
-			FullyDenormalizedSchemaCreator.createFullyDenormalizedDatabaseSchema(database.getConnection());
-			System.out.println("Database schema creation finished\n");
-			
-			// Load data to normalized schema
-			NormalizedSchemaLoader.loadData(database.getConnection());
-			// Load data to normalized schema
-			FullyDenormalizedSchemaLoader.loadData(database.getConnection());
-			System.out.println("Loading data finished\n");
+//			// Drop normalized schema 
+//			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+//			// Drop fully denormalized schema 
+//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+//			// Drop partially denormalized schema 
+//			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
+//			System.out.println("Dropping database schema finished\n");
+//			
+//			// Create normalized schema 
+//			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+//			// Create fully denormalized schema 
+//			FullyDenormalizedSchemaCreator.createFullyDenormalizedDatabaseSchema(database.getConnection());
+//			System.out.println("Database schema creation finished\n");
+//			
+//			// Load data to normalized schema
+//			NormalizedSchemaLoader.loadData(database.getConnection());
+//			// Load data to normalized schema
+//			FullyDenormalizedSchemaLoader.loadData(database.getConnection());
+//			System.out.println("Loading data finished\n");
+//
+//			// Raise foreign keys on normalized schema
+//			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+//			// Raise foreign keys on fully denormalized schema [no foreign keys on FullyDT]
+//			FullyDenormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+//			System.out.println("Foreign keys raising finished\n");
+//
+//			// Raise indexes
+//			FullyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
+//			System.out.println("Indexes raising finished");
+//
+//			long coldStartTime = System.nanoTime() - applicationTime;
+//			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
 
-			// Raise foreign keys [no foreign keys on FullyDT]
-			FullyDenormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-			System.out.println("Foreign keys raising finished\n");
-
-			// Raise indexes
-			FullyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
-			System.out.println("Indexes raising finished");
-
-			long coldStartTime = System.nanoTime() - applicationTime;
-			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
-
-//			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
+			database.startTransactionMixture(transactionMixFile, timestampResultFile, differenceResultFile);
 			
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TransactionError e) {

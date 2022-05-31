@@ -45,7 +45,7 @@ public abstract class CustomerPosition_T2 {
 
 		// Frame 1:
 		invokeCustomerPositionFrame1_T2F1();
-		
+/*		
 		if (acc_len < 1 || acc_len > Constraints.max_acct_len_rows) {
 			status = -211;
 			if(status < 0) {
@@ -66,6 +66,7 @@ public abstract class CustomerPosition_T2 {
 			}
 			
 		}		
+*/
 	}	
 	
 	public abstract void invokeCustomerPositionFrame1_T2F1() throws TransactionError;
