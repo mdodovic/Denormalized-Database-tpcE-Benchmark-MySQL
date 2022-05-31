@@ -213,35 +213,35 @@ public class Main {
 					FileWriter fw2 = new FileWriter(FilesManagement.pathToResultFolderPartiallyDenormalized + outputResultFile + "_difference.txt");
 					PrintWriter differenceResultFile = new PrintWriter(fw2)){
 
-//			// Drop normalized schema 
-//			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
-//			// Drop fully denormalized schema 
-//			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
-//			// Drop partially denormalized schema 
-//			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
-//			System.out.println("Dropping database schema finished\n");
-//			
-//			// Create normalized schema 
-//			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
-//			// Create fully denormalized schema 
-//			PartiallyDenormalizedSchemaCreator.createPartiallyDenormalizedDatabaseSchema(database.getConnection());
-//			System.out.println("Database schema creation finished\n");
-//			
-//			// Load data to normalized schema
-//			NormalizedSchemaLoader.loadData(database.getConnection());
-//			// Load data to normalized schema
-//			PartiallyDenormalizedSchemaLoader.loadData(database.getConnection());
-//			System.out.println("Loading data finished\n");
-//
-//			// Raise foreign keys on normalized schema
-//			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-//			// Raise foreign keys on fully denormalized schema [no foreign keys on FullyDT]
-//			PartiallyDenormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
-//			System.out.println("Foreign keys raising finished\n");
-//
-//			// Raise indexes
-//			PartiallyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
-//			System.out.println("Indexes raising finished");
+			// Drop normalized schema 
+			NormalizedSchemaCreator.dropNormalizedDatabaseChema(database.getConnection());
+			// Drop fully denormalized schema 
+			FullyDenormalizedSchemaCreator.dropFullyDenormalizedDatabaseChema(database.getConnection());
+			// Drop partially denormalized schema 
+			PartiallyDenormalizedSchemaCreator.dropPartiallyDenormalizedDatabaseChema(database.getConnection());
+			System.out.println("Dropping database schema finished\n");
+			
+			// Create normalized schema 
+			NormalizedSchemaCreator.createNormalizedDatabaseSchema(database.getConnection());
+			// Create fully denormalized schema 
+			PartiallyDenormalizedSchemaCreator.createPartiallyDenormalizedDatabaseSchema(database.getConnection());
+			System.out.println("Database schema creation finished\n");
+			
+			// Load data to normalized schema
+			NormalizedSchemaLoader.loadData(database.getConnection());
+			// Load data to normalized schema
+			PartiallyDenormalizedSchemaLoader.loadData(database.getConnection());
+			System.out.println("Loading data finished\n");
+
+			// Raise foreign keys on normalized schema
+			NormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+			// Raise foreign keys on fully denormalized schema [no foreign keys on FullyDT]
+			PartiallyDenormalizedSchemaCreator.raiseForeignKeyConstraints(database.getConnection());
+			System.out.println("Foreign keys raising finished\n");
+
+			// Raise indexes
+			PartiallyDenormalizedSchemaCreator.raiseIndexes(database.getConnection());
+			System.out.println("Indexes raising finished");
 
 			long coldStartTime = System.nanoTime() - applicationTime;
 			System.out.println("Cold start finished after " + (coldStartTime / 1e9) + " seconds");
@@ -251,8 +251,8 @@ public class Main {
 			applicationTime = System.nanoTime() - applicationTime;
 			System.out.println("Application finished after: " + (applicationTime / 1e9) + " seconds");
 			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TransactionError e) {
@@ -268,36 +268,44 @@ public class Main {
 	public static void main(String[] args) {
 		
 
-//		// Normalized schema
-//		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
-//			
-//			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
-//			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
-//			
-//			tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-//
-//			
-//		}
+		// Normalized schema
+		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
+			
+			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+			
+			tpcENormalized(Main.inputDataFile, Main.outputResultFile);
 
-//		// Denormalized schema
-//		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
-//			
-//			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
-//			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
-//			
-//			tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
-//			
-//		}
+			
+		}
+
+		// Fully denormalized schema
+		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
+			
+			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+			
+			tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
+			
+		}
+
+		// Partially denormalized schema
+		for(int i = 0; i < FilesManagement.transactionMixFilesList.size(); i++) {
+			
+			Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+			Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+			
+			tpcEPartiallyDenormalized(Main.inputDataFile, Main.outputResultFile);
+			
+		}
+
 		
-		
-		int i = 1;
-		
-		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
-		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
-		
+//		int i = 0;
+//		
+//		Main.inputDataFile = FilesManagement.transactionMixFilesList.get(i);
+//		Main.outputResultFile = FilesManagement.outputResultFileNameList.get(i);
+//		
 //		tpcENormalized(Main.inputDataFile, Main.outputResultFile);
-//		tpcEFullyDenormalized(Main.inputDataFile, Main.outputResultFile);
-		tpcEPartiallyDenormalized(Main.inputDataFile, Main.outputResultFile);
 
 
 
