@@ -14,6 +14,7 @@ import rs.ac.bg.etf.mdodovic.schema.create.PartiallyDenormalizedSchemaCreator;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.FullyDenormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.NormalizedSchemaLoader;
 import rs.ac.bg.etf.mdodovic.schema.loaddata.PartiallyDenormalizedSchemaLoader;
+import rs.ac.bg.etf.mdodovic.singleQueries.SingleQueries;
 import rs.ac.bg.etf.mdodovic.transactions.TransactionMixtureExecutor;
 
 public class Main {
@@ -76,6 +77,7 @@ public class Main {
 			
 			if(connection != null) {
 				connection.close();
+				System.out.println("Disconect from MySQL");
 			}
 
 		} catch (SQLException e) {
@@ -316,11 +318,75 @@ public class Main {
 //			
 //		}
 		
-		tpcECompleteSchema();
+//		tpcECompleteSchema();
+		executeSingleQueries();
+	}
+
+	public static void executeSingleQueries() {
+		Main database;
+		
+		/* ... */
+		database = new Main("");
+		
+		new SingleQueries().T2F1_NT_NoConditions_NoGroupBy(database.getConnection());
+		new SingleQueries().T2F1_FullyDT_NoConditions_NoGroupBy(database.getConnection());
+		new SingleQueries().T2F1_PartiallyDT_NoConditions_NoGroupBy(database.getConnection());
+		
+		database.disconnectFromMySQL();
+		
+		/* ... */
+		database = new Main("");
+		
+		new SingleQueries().T2F1_FullyDT_NoConditions_NoGroupBy(database.getConnection());
+		new SingleQueries().T2F1_NT_NoConditions_NoGroupBy(database.getConnection());
+		new SingleQueries().T2F1_PartiallyDT_NoConditions_NoGroupBy(database.getConnection());
+		
+		database.disconnectFromMySQL();
+
+		/* ... */ 
+		database = new Main("");		
+		new SingleQueries().T2F1_PartiallyDT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		database = new Main("");		
+		new SingleQueries().T2F1_NT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		database = new Main("");		
+		new SingleQueries().T2F1_FullyDT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+
+		/* ... */ 
+		database = new Main("");		
+		new SingleQueries().T2F1_NT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		database = new Main("");		
+		new SingleQueries().T2F1_PartiallyDT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		database = new Main("");		
+		new SingleQueries().T2F1_FullyDT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		
+		/* ... */ 
+		database = new Main("");		
+		new SingleQueries().T2F1_FullyDT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		database = new Main("");		
+		new SingleQueries().T2F1_NT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
+
+		database = new Main("");		
+		new SingleQueries().T2F1_PartiallyDT_NoConditions_NoGroupBy(database.getConnection());		
+		database.disconnectFromMySQL();
 
 	}
 
-	private static void tpcECompleteSchema() {
+	public static void tpcECompleteSchema() {
 
 		long applicationTime = System.nanoTime();
 		
