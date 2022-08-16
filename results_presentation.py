@@ -45,3 +45,8 @@ ax3.set_title('T8F6')
 fig.tight_layout()
 plt.savefig("./MySQL_relative.png", dpi = 90)
 plt.show()
+
+
+plt.bar(['RNTT2F1', 'RFDTT2F1', 'RPDTT2F1'], [12.438, 0.187, 2.328], width = 0.4)
+plt.savefig("./MySQL_additional_analysis.png", dpi = 90)
+plt.show()
