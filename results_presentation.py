@@ -27,3 +27,21 @@ ax3.set_title('T8F6')
 fig.tight_layout()
 plt.savefig("./MySQL_absolute.png", dpi = 90)
 plt.show()
+
+fig, ((ax0, ax1), (ax2, ax3)) = plt.subplots(nrows=2, ncols=2)
+
+ax0.bar(models, [0.48, 0.43, 0.47], width = 0.4)
+ax0.set_title('T2F1')
+
+ax1.bar(models, [0.29, 0.46, 0.37], width = 0.4)
+ax1.set_title('T3F1')
+
+ax2.bar(models, [2.93, 3.6, 2.91], width = 0.4)
+ax2.set_title('T8F2')
+
+ax3.bar(models, [3.01, 4.23, 2.88], width = 0.4)
+ax3.set_title('T8F6')
+
+fig.tight_layout()
+plt.savefig("./MySQL_relative.png", dpi = 90)
+plt.show()
